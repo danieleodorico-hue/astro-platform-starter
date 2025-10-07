@@ -2,17 +2,27 @@
 const brand = "<DO_>";
 ---
 
-<a href="/" class="inline-flex items-center select-none">
-  <span class="font-orbitron text-[#00bcd4] text-xl sm:text-2xl tracking-widest relative">
+<div class="logo-wrapper select-none">
+  <span class="font-terminal text-[#00bcd4] text-2xl sm:text-3xl tracking-wider">
     &lt;DO<span class="blinking-underscore text-[#d16ba5]">_</span>&gt;
   </span>
-</a>
+</div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap');
+  /* Font stile terminale CRT */
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-  .font-orbitron {
-    font-family: 'Orbitron', sans-serif;
+  .font-terminal {
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .logo-wrapper {
+    background: #000;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 188, 212, 0.25);
+    display: inline-block;
+    margin-right: 3rem; /* aumenta lo spazio tra logo e menù */
   }
 
   .blinking-underscore {
