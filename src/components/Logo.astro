@@ -3,31 +3,31 @@ const brand = "<DO_>";
 ---
 
 <div class="logo-wrapper select-none">
-  <span class="font-terminal text-[#00bcd4] text-2xl sm:text-3xl tracking-wider">
+  <span class="font-terminal text-[#00bcd4] text-3xl sm:text-4xl tracking-[0.08em]">
     &lt;DO<span class="blinking-underscore text-[#d16ba5]">_</span>&gt;
   </span>
 </div>
 
 <style>
-  /* Font stile terminale CRT */
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  /* Font stile terminale rigido */
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
   .font-terminal {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'VT323', monospace;
   }
 
   .logo-wrapper {
     background: #000;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 6px;
-    box-shadow: 0 0 12px rgba(0, 188, 212, 0.25);
+    box-shadow: 0 0 14px rgba(0, 188, 212, 0.25);
     display: inline-block;
-    margin-right: 3rem; /* aumenta lo spazio tra logo e menù */
+    margin-right: 3rem; /* spazio tra logo e menù */
   }
 
   .blinking-underscore {
     display: inline-block;
-    animation: blink 1.1s steps(2, start) infinite;
+    animation: blink 1s steps(2, start) infinite;
   }
 
   @keyframes blink {
