@@ -2,29 +2,44 @@
 import Logo from '../components/Logo.astro';
 
 const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Revalidation', href: '/revalidation' },
-    { linkText: 'Image CDN', href: '/image-cdn' },
-    { linkText: 'Edge Function', href: '/edge' },
-    { linkText: 'Blobs', href: '/blobs' }
+  { linkText: 'Home', href: '/' },
+  { linkText: 'Revalidation', href: '/revalidation' },
+  { linkText: 'Image CDN', href: '/image-cdn' },
+  { linkText: 'Edge Function', href: '/edge' },
+  { linkText: 'Blobs', href: '/blobs' }
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
-    <a href="/">
-        <Logo />
-    </a>
-    {
-        !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
-                {navItems.map((item) => (
-                    <li>
-                        <a href={item.href} class="inline-block px-1.5 py-1 sm:px-3 sm:py-2">
-                            {item.linkText}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        )
-    }
+<nav class="flex flex-wrap items-center gap-6 pt-8 pb-20 sm:pt-14 sm:pb-28 text-[#f2f2f2]">
+  <a href="/" class="mr-4 hover:opacity-90 transition-opacity duration-200">
+    <Logo />
+  </a>
+
+  {
+    !!navItems?.length && (
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 font-orbitron tracking-wide uppercase text-sm">
+        {navItems.map((item) => (
+          <li>
+            <a 
+              href={item.href} 
+              class="relative inline-block px-2 py-1 transition-all duration-300 
+                     text-[#00bcd4] hover:text-[#d16ba5] 
+                     after:content-[''] after:absolute after:left-0 after:bottom-0 
+                     after:h-[2px] after:w-0 after:bg-[#00bcd4] 
+                     hover:after:w-full after:transition-all after:duration-300">
+              {item.linkText}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </nav>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+  .font-orbitron {
+    font-family: 'Orbitron', sans-serif;
+  }
+</style>
