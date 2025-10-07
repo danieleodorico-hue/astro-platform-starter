@@ -5,34 +5,32 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Daniele Odorico — Full-stack Developer">
 
   <!-- HERO -->
-<section class="mb-16 sm:mb-24">
-  <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4 text-[#f2f2f2]">
-    Ciao, sono <span class="text-[#00bcd4]">Daniele Odorico</span>
-  </h1>
+  <section class="mb-16 sm:mb-24">
+    <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4 text-[#f2f2f2]">
+      Ciao, sono
+      <a href="/about" class="underline">
+        <span class="text-[#00bcd4]">Daniele Odorico</span>
+      </a>
+    </h1>
 
-  <p class="text-xl sm:text-2xl text-[#cfcfcf] mb-4">
-    Full-stack developer — 
-    <span class="text-[#00bcd4]">Angular</span>, TypeScript, 
-    <span class="text-[#d16ba5]">Java</span>.
-  </p>
+    <!-- sottotitolo in bianco opaco -->
+    <p class="text-xl sm:text-2xl text-[#cfcfcf] mb-4">
+      Full-stack developer — Angular, TypeScript, Java.
+    </p>
 
-  <p class="text-lg text-[#b8b8b8] max-w-3xl">
-    Sviluppo in Angular, HTML, TypeScript, Java e JavaScript. Lavoro in una multinazionale (GPI SpA) su
-    software per la sanità: gestione cartelle e percorsi assistenziali territoriali e di consultorio,
-    moduli per medici di base, residenzialità territoriale e posti letto, trasporti ambulanzieri programmati.
-  </p>
+    <p class="text-lg text-[#b8b8b8] max-w-3xl">
+      Sviluppo in Angular, HTML, TypeScript, Java e JavaScript. Lavoro in una multinazionale (GPI SpA) su
+      software per la sanità: gestione cartelle e percorsi assistenziali territoriali e di consultorio,
+      moduli per medici di base, residenzialità territoriale e posti letto, trasporti ambulanzieri programmati.
+    </p>
 
-  <p class="text-lg text-[#b8b8b8] mt-5 max-w-3xl">
-    Qui condivido <span class="tag">#progetti</span>, <span class="tag">#competenze</span> e qualche riflessione sul mio percorso.
-  </p>
-
-  <div class="flex flex-wrap gap-3 mt-8">
-    <a href="/projects" class="cta">Guarda i Progetti</a>
-    <a href="/blog" class="cta">Leggi il Blog</a>
-    <a href="/contact" class="cta">Contatti</a>
-  </div>
-</section>
-
+    <!-- stacco + tag; #competenze link in rosa senza underline -->
+    <p class="text-lg text-[#b8b8b8] mt-5 max-w-3xl">
+      Qui condivido <span class="tag">#progetti</span>,
+      <a href="/skills" class="tag-link">#competenze</a>
+      e qualche riflessione sul mio percorso.
+    </p>
+  </section>
 
   <!-- HIGHLIGHTS -->
   <section class="grid gap-6 sm:gap-8 sm:grid-cols-3">
@@ -92,6 +90,23 @@ import Layout from '../layouts/Layout.astro';
     .card-body{ color:#bfbfbf; margin-bottom:.6rem; }
     .card-link{ color:#00bcd4; border-bottom:1px dashed rgba(0,188,212,.5); }
     .card-link:hover{ color:#d16ba5; border-bottom-color:#d16ba5; }
+
+    /* tag “codice” */
+    .tag{
+      font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      color:#00bcd4; background:rgba(255,255,255,.06);
+      padding:.15rem .4rem; border-radius:.35rem;
+    }
+
+    /* tag-link in rosa, senza underline */
+    .tag-link{
+      font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      color:#d16ba5; background:rgba(255,255,255,.06);
+      padding:.15rem .4rem; border-radius:.35rem;
+      text-decoration:none;
+    }
+    .tag-link:hover{ color:#00bcd4; }
+
   </style>
 
 </Layout>
