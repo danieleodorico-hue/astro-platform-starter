@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Si va in scena',
+    date: '2025-10-08',
+    description: 'Finalmente il sito è pronto e si va online.',
+    tags: ['personale', 'webpage', 'progetto']
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl">
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-4">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {new Date(frontmatter.date).toLocaleDateString('it-IT')}
+        </p>
+
+        <div class="text-[#b8b8b8] leading-relaxed text-justify">
+            <p>Questo è il mio primo post di prova per il blog dinamico. 🎉</p>
+            <p class="mt-4">Include supporto a tag, ordinamento per data e conteggio automatico degli articoli pubblicati.</p>
+        </div>
+    </section>
+</Layout>

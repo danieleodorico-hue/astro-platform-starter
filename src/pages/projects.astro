@@ -1,0 +1,104 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Progetti — Daniele Odorico">
+    <!-- PROJECTS PAGE -->
+    <section class="mb-12 sm:mb-20">
+        <!-- Titolo principale -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6 text-[#f2f2f2]">Progetti</h1>
+
+        <!-- Intro -->
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-8 text-justify">
+            Questa sezione raccoglie alcuni dei progetti a cui sto lavorando — iniziative personali, sperimentazioni e percorsi di crescita che uniscono
+            <span class="tag">#sviluppo</span>, <span class="tag">#studio</span> e <span class="tag">#organizzazione</span>.
+        </p>
+
+        <!-- Griglia progetti -->
+        <div class="grid gap-6 sm:gap-8 sm:grid-cols-3">
+            <!-- Progetto 1: JLPT N5 -->
+            <article class="project-card">
+                <h3 class="project-title">Esame JLPT N5</h3>
+                <p class="project-body">
+                    Studio della lingua giapponese in preparazione all’esame ufficiale <span class="tag">#JLPT N5</span>, previsto per dicembre. L’obiettivo è
+                    consolidare le basi grammaticali, il vocabolario e la comprensione scritta.
+                </p>
+                <p class="project-status">📘 In corso</p>
+            </article>
+
+            <!-- Progetto 2: Sito personale -->
+            <article class="project-card">
+                <h3 class="project-title">Web page personale</h3>
+                <p class="project-body">
+                    Sviluppo e manutenzione di questo sito, realizzato con <span class="tag">#Astro</span>, <span class="tag">#TypeScript</span> e
+                    <span class="tag">#Tailwind</span>. Un progetto vivo, che evolve nel tempo per rappresentare al meglio il mio percorso e le mie competenze.
+                </p>
+                <p class="project-status">🚀 Online</p>
+            </article>
+
+            <!-- Progetto 3: Tracking alimentare -->
+            <article class="project-card">
+                <h3 class="project-title">Tracking alimentare</h3>
+                <p class="project-body">
+                    Un sistema personale per monitorare l’assunzione di nutrienti e <span class="tag">#Omega3</span>, sviluppato con il supporto di
+                    <span class="tag">#ChatGPT</span>. L’obiettivo è combinare tecnologia e benessere, automatizzando la raccolta dei dati e la visualizzazione
+                    delle informazioni giornaliere.
+                </p>
+                <p class="project-status">🧪 Sperimentale</p>
+            </article>
+        </div>
+    </section>
+
+    <style>
+        /* Import font tecnica */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+        /* TAG */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+        }
+
+        /* CARD PROGETTO */
+        .project-card {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.25rem;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                transform 0.15s;
+        }
+        .project-card:hover {
+            border-color: rgba(0, 188, 212, 0.45);
+            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+            transform: translateY(-2px);
+        }
+
+        /* Titolo */
+        .project-title {
+            color: #f2f2f2;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.35rem;
+        }
+
+        /* Corpo */
+        .project-body {
+            color: #bfbfbf;
+            margin-bottom: 0.8rem;
+            text-align: justify;
+        }
+
+        /* Stato (in corso, online, ecc.) */
+        .project-status {
+            color: #d16ba5;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+    </style>
+</Layout>

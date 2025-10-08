@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contatti — Daniele Odorico">
+    <!-- CONTACT PAGE -->
+    <section class="mb-12 sm:mb-20">
+        <!-- Titolo principale -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6 text-[#f2f2f2]">Contatti</h1>
+
+        <!-- Testo introduttivo -->
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-6">
+            Se desideri contattarmi per collaborazioni, domande tecniche o semplicemente per un saluto, puoi scrivermi al seguente indirizzo email:
+        </p>
+
+        <!-- Email evidenziata in stile brand -->
+        <p class="text-xl">
+            <a href="mailto:dende2000new@yahoo.it" class="link-inline text-lg">dende2000new@yahoo.it</a>
+        </p>
+
+        <!-- Nota secondaria -->
+        <p class="text-sm text-[#888] mt-6 max-w-5xl">
+            Rispondo preferibilmente durante la settimana, appena possibile. Per comunicazioni professionali, specifica l’oggetto della mail.
+        </p>
+    </section>
+
+    <style>
+        /* link-inline: stile coerente con l’index */
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                text-shadow 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+            text-shadow: 0 0 6px rgba(0, 188, 212, 0.4);
+        }
+    </style>
+</Layout>

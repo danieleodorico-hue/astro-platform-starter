@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Competenze — Daniele Odorico">
+    <!-- SKILLS -->
+    <section class="mb-12 sm:mb-20">
+        <!-- Titolo -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6 text-[#f2f2f2]">Competenze</h1>
+
+        <!-- Intro -->
+        <p class="text-lg text-[#b8b8b8] max-w-4xl mb-8 text-justify">
+            Nel corso della mia esperienza come sviluppatore full-stack ho maturato competenze che spaziano dalla progettazione
+            <span class="tag">#frontend</span> allo sviluppo
+            <span class="tag">#backend</span>, con particolare attenzione alla qualità del codice e alla user experience.
+        </p>
+
+        <!-- Sezione: Front-end -->
+        <article class="mb-8">
+            <h2 class="skill-title">Front-end</h2>
+            <ul class="skill-list">
+                <li><span class="tag">#Angular</span> — framework principale per lo sviluppo di web app moderne.</li>
+                <li><span class="tag">#TypeScript</span> — tipizzazione forte e clean code.</li>
+                <li><span class="tag">#RxJS</span> — programmazione reattiva e gestione degli stream.</li>
+                <li><span class="tag">#HTML</span>, <span class="tag">#SCSS</span> — strutture semantiche e design responsive.</li>
+            </ul>
+        </article>
+
+        <!-- Sezione: Back-end -->
+        <article class="mb-8">
+            <h2 class="skill-title">Back-end</h2>
+            <ul class="skill-list">
+                <li><span class="tag">#Java</span> — applicazioni enterprise e API RESTful.</li>
+                <li><span class="tag">#Spring Boot</span> — architetture modulari e sicure.</li>
+                <li><span class="tag">#JWT</span> — autenticazione e sicurezza lato server.</li>
+            </ul>
+        </article>
+
+        <!-- Sezione: Strumenti -->
+        <article class="mb-8">
+            <h2 class="skill-title">Strumenti & Workflow</h2>
+            <ul class="skill-list">
+                <li><span class="tag">#Git</span> — versionamento e gestione del codice.</li>
+                <li><span class="tag">#VSCode</span>, <span class="tag">#IntelliJ</span> — ambienti di sviluppo quotidiani.</li>
+                <li><span class="tag">#Postman</span> — testing delle API.</li>
+                <li><span class="tag">#Docker</span> — ambienti isolati e containerizzati.</li>
+            </ul>
+        </article>
+
+        <!-- Sezione: Filosofia -->
+        <article>
+            <h2 class="skill-title">Approccio e filosofia</h2>
+            <p class="text-lg text-[#b8b8b8] max-w-4xl text-justify">
+                Prediligo codice leggibile e mantenibile, seguendo principi come
+                <span class="tag">#CleanCode</span>,
+                <span class="tag">#SOLID</span> e
+                <span class="tag">#KISS</span>. Credo che una buona architettura nasca da equilibrio tra funzionalità, chiarezza e attenzione ai dettagli.
+            </p>
+        </article>
+    </section>
+
+    <style>
+        /* Import JetBrains Mono per i tag */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+        /* tag (hashtag tecnici) */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+        }
+
+        /* titoli secondari */
+        .skill-title {
+            color: #f2f2f2;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+        .skill-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #d16ba5, #00bcd4);
+            border-radius: 2px;
+            opacity: 0.8;
+        }
+
+        /* lista competenze */
+        .skill-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .skill-list li {
+            color: #b8b8b8;
+            margin-bottom: 0.5rem;
+        }
+
+        /* link inline (coerenza con sito) */
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                text-shadow 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+            text-shadow: 0 0 6px rgba(0, 188, 212, 0.4);
+        }
+    </style>
+</Layout>

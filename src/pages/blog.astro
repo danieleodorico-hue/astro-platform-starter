@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Carica tutti i post .astro nella cartella /blogs
+const posts = await Astro.glob('../pages/blogs/*.astro');
+
+// Ordina per data decrescente
+posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+
+// Estrai tutti i tag unici dai post
+const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
+---
+
+<Layout title="Blog — Daniele Odorico">
+    <section class="mb-12 sm:mb-20">
+        <!-- Titolo e conteggio -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">Blog</h1>
+        <p class="text-[#b8b8b8] mb-8">
+            {posts.length} articoli pubblicati
+        </p>
+
+        <!-- Tag filter -->
+        {
+            allTags.length > 0 && (
+                <div class="mb-10 flex flex-wrap gap-3">
+                    <button class="tag active" data-tag="all">
+                        #tutti
+                    </button>
+                    {allTags.map((tag) => (
+                        <button class="tag" data-tag={tag}>
+                            #{tag}
+                        </button>
+                    ))}
+                </div>
+            )
+        }
+
+        <!-- Griglia post -->
+        <div id="post-grid" class="grid gap-6 sm:gap-8 sm:grid-cols-3">
+            {
+                posts.map((post) => (
+                    <article class="post-card" data-tags={(post.frontmatter.tags || []).join(',')}>
+                        <a href={post.url} class="block no-underline">
+                            <h3 class="post-title">{post.frontmatter.title}</h3>
+                            <p class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</p>
+                            <p class="post-excerpt">{post.frontmatter.description}</p>
+                            {post.frontmatter.tags && (
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    {post.frontmatter.tags.map((t) => (
+                                        <span class="tag-mini">#{t}</span>
+                                    ))}
+                                </div>
+                            )}
+                        </a>
+                    </article>
+                ))
+            }
+        </div>
+    </section>
+
+    <script>
+        // --- Filtro client-side dei post per tag ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button.tag');
+            const posts = document.querySelectorAll('#post-grid article');
+
+            buttons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const selected = btn.dataset.tag;
+
+                    buttons.forEach((b) => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    posts.forEach((post) => {
+                        const tags = post.dataset.tags?.split(',') || [];
+                        post.style.display = selected === 'all' || tags.includes(selected) ? 'block' : 'none';
+                    });
+                });
+            });
+        });
+    </script>
+
+    <style>
+        /* TAG generali per filtro */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #d16ba5;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.4rem;
+            border: 1px dashed rgba(209, 107, 165, 0.4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: lowercase;
+        }
+        .tag:hover {
+            color: #00bcd4;
+            border-color: rgba(0, 188, 212, 0.6);
+        }
+        .tag.active {
+            background: rgba(209, 107, 165, 0.15);
+            color: #00bcd4;
+            border-color: rgba(0, 188, 212, 0.6);
+        }
+
+        /* Mini-tag nei post */
+        .tag-mini {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+
+        /* CARD POST */
+        .post-card {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.25rem;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                transform 0.15s;
+        }
+        .post-card:hover {
+            border-color: rgba(0, 188, 212, 0.45);
+            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .post-title {
+            color: #f2f2f2;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.3rem;
+        }
+        .post-date {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+        }
+        .post-excerpt {
+            color: #bfbfbf;
+            font-size: 0.95rem;
+        }
+    </style>
+</Layout>

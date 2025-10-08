@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Chi sono — Daniele Odorico">
+    <!-- ABOUT -->
+    <section class="mb-12 sm:mb-20">
+        <!-- Titolo principale -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6 text-[#f2f2f2]">Chi sono</h1>
+
+        <!-- Intro -->
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-5">
+            Mi chiamo <span class="text-[#00bcd4] font-semibold">Daniele Odorico</span> e sono nato il
+            <span class="text-[#d16ba5] font-semibold">16 marzo 1978</span>.
+        </p>
+
+        <!-- Paragrafo biografico -->
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-5 text-justify">
+            Da sempre affascinato dal mondo della tecnologia, ho trasformato la mia passione per il software in una professione che unisce creatività e metodo.
+            Nel corso degli anni ho lavorato su applicazioni web e sistemi enterprise, specializzandomi nello sviluppo
+            <span class="text-[#00bcd4] font-semibold">front-end</span> e
+            <span class="text-[#00bcd4] font-semibold">back-end</span> con
+            <span class="tag">#Angular</span>,
+            <span class="tag">#TypeScript</span> e
+            <span class="tag">#Java</span>.
+        </p>
+
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-5 text-justify">
+            Attualmente collaboro con <a href="https://www.gpi.it" target="_blank" rel="noopener noreferrer" class="link-inline">GPI SpA</a>, realtà leader nel
+            settore sanitario, contribuendo alla creazione di soluzioni digitali per la gestione dei servizi territoriali e assistenziali.
+        </p>
+
+        <p class="text-lg text-[#b8b8b8] max-w-5xl mb-5 text-justify">
+            Credo nel valore della semplicità, nel codice pulito e nella costante curiosità di imparare. Quando non programmo, mi piace fare sport, leggere e
+            studiare giapponese.
+        </p>
+
+        <p class="text-lg text-[#b8b8b8] max-w-5xl">
+            Se vuoi saperne di più sul mio percorso o collaborare a un progetto, puoi scrivermi alla mia
+            <a href="/contact" class="link-inline">pagina contatti</a>.
+        </p>
+    </section>
+
+    <style>
+        /* Import JetBrains Mono per i tag */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+        /* tag (hashtag tecnici) */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+        }
+
+        /* link-inline (stile coerente con index e contact) */
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                text-shadow 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+            text-shadow: 0 0 6px rgba(0, 188, 212, 0.4);
+        }
+    </style>
+</Layout>
