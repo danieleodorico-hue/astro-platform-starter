@@ -1,24 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-// Importa le icone disponibili (aggiungine altre se servono)
 import { PenTool, Globe, Trophy, Volleyball, BookOpen, Code, FileText, Rocket, Cpu, Newspaper } from 'lucide-astro';
 
-// Mappa nome → icona
-const iconMap = {
-    PenTool,
-    Globe,
-    Trophy,
-    Volleyball,
-    BookOpen,
-    Code,
-    Rocket,
-    Cpu,
-    Newspaper,
-    FileText // fallback
-};
+const iconMap = { PenTool, Globe, Trophy, Volleyball, BookOpen, Code, Rocket, Cpu, Newspaper, FileText };
 
-// Carica tutti i post .astro dalla cartella /blogs
 interface BlogPost {
     frontmatter: {
         title: string;
@@ -34,17 +19,19 @@ const posts = (await Astro.glob<BlogPost>('../pages/blogs/*.astro')).sort(
     (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
 );
 
-// Estrai tutti i tag unici
-const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
+// Conta tag e tieni solo i 10 più usati
+const tagCounts = posts.flatMap((p) => p.frontmatter.tags || []).reduce((acc, tag) => ((acc[tag] = (acc[tag] || 0) + 1), acc), {});
+const allTags = Object.keys(tagCounts)
+    .sort((a, b) => tagCounts[b] - tagCounts[a])
+    .slice(0, 10);
 ---
 
 <Layout title="Blog — Daniele Odorico">
     <section class="mb-12 sm:mb-20 max-w-7xl mx-auto">
-        <!-- Titolo + conteggio -->
         <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">Blog</h1>
         <p class="text-[#b8b8b8] mb-8">{posts.length} articoli pubblicati</p>
 
-        <!-- Filtro per tag -->
+        <!-- TAG FILTER -->
         {
             allTags.length > 0 && (
                 <div class="mb-10 flex flex-wrap gap-3">
@@ -60,59 +47,89 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             )
         }
 
-        <!-- Griglia dei post -->
-        <div id="post-grid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {
-                posts.map((post) => {
-                    const { title, date, description, tags = [], icon } = post.frontmatter;
-                    const IconComponent = iconMap[icon] || FileText;
+        <!-- GRIGLIA POST -->
+        <div id="post-grid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"></div>
 
-                    return (
-                        <article class="card" data-tags={tags.join(',')}>
-                            <div class="icon-wrapper mb-4">
-                                <IconComponent class="icon-large" />
-                            </div>
-
-                            <h3 class="card-title">{title}</h3>
-                            <p class="text-sm text-[#999] mb-3">{new Date(date).toLocaleDateString('it-IT')}</p>
-
-                            <p class="card-body">{description}</p>
-
-                            <div class="flex flex-wrap gap-2 mt-3">
-                                {tags.map((tag) => (
-                                    <span class="tag-mini">{`#${tag}`}</span>
-                                ))}
-                            </div>
-
-                            <a href={post.url} class="card-link mt-3 inline-block">
-                                Leggi l'articolo
-                            </a>
-                        </article>
-                    );
-                })
-            }
+        <!-- PAGINAZIONE -->
+        <div class="flex justify-center mt-10">
+            <button id="load-more" class="load-btn">Carica altri articoli</button>
         </div>
     </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const buttons = document.querySelectorAll('button.tag') as NodeListOf<HTMLButtonElement>;
-            const posts = document.querySelectorAll('#post-grid article') as NodeListOf<HTMLElement>;
+            const postGrid = document.getElementById('post-grid') as HTMLElement;
+            const loadMoreBtn = document.getElementById('load-more') as HTMLButtonElement;
+
+            // Cast esplicito a HTMLTemplateElement per il contenuto
+            const posts = [...document.querySelectorAll('template[data-post]')] as HTMLTemplateElement[];
+
+            const pageSize = 6;
+            let currentIndex = 0;
+            let currentTag = 'all';
+
+            function renderPosts(reset = false) {
+                if (reset) {
+                    postGrid.innerHTML = '';
+                    currentIndex = 0;
+                }
+
+                const filtered = posts.filter((t) => {
+                    const first = t.content.firstElementChild as HTMLElement | null;
+                    const tags = first?.dataset.tags?.split(',') || [];
+                    return currentTag === 'all' || tags.includes(currentTag);
+                });
+
+                const nextBatch = filtered.slice(currentIndex, currentIndex + pageSize);
+                nextBatch.forEach((frag) => postGrid.appendChild(frag.content.cloneNode(true)));
+
+                currentIndex += pageSize;
+                loadMoreBtn.style.display = currentIndex >= filtered.length ? 'none' : 'block';
+            }
 
             buttons.forEach((btn) => {
                 btn.addEventListener('click', () => {
-                    const selected = btn.dataset.tag;
-
                     buttons.forEach((b) => b.classList.remove('active'));
                     btn.classList.add('active');
-
-                    posts.forEach((post) => {
-                        const tags = post.dataset.tags?.split(',') || [];
-                        post.style.display = selected === 'all' || tags.includes(selected) ? 'block' : 'none';
-                    });
+                    currentTag = btn.dataset.tag ?? 'all';
+                    renderPosts(true);
                 });
             });
+
+            loadMoreBtn.addEventListener('click', () => renderPosts());
+
+            renderPosts();
         });
     </script>
+
+    <!-- TEMPLATE POST -->
+    {
+        posts.map((post) => {
+            const { title, date, description, tags = [], icon } = post.frontmatter;
+            const IconComponent = iconMap[icon] || FileText;
+            return (
+                <template data-post>
+                    <article class="card" data-tags={tags.join(',')}>
+                        <div class="icon-wrapper mb-4">
+                            <IconComponent class="icon-large" />
+                        </div>
+                        <h3 class="card-title">{title}</h3>
+                        <p class="text-sm text-[#999] mb-3">{new Date(date).toLocaleDateString('it-IT')}</p>
+                        <p class="card-body">{description}</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            {tags.map((tag) => (
+                                <span class="tag-mini">{`#${tag}`}</span>
+                            ))}
+                        </div>
+                        <a href={post.url} class="card-link mt-3 inline-block">
+                            Leggi l'articolo
+                        </a>
+                    </article>
+                </template>
+            );
+        })
+    }
 
     <style>
         /* TAG filtro */
@@ -137,9 +154,8 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             border-color: rgba(0, 188, 212, 0.6);
         }
 
-        /* TAG nei post */
         .tag-mini {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-family: 'JetBrains Mono', ui-monospace;
             font-size: 0.8rem;
             color: #00bcd4;
             background: rgba(255, 255, 255, 0.04);
@@ -147,7 +163,6 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             border-radius: 0.35rem;
         }
 
-        /* CARD POST */
         .card {
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -168,7 +183,6 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             font-weight: 700;
             color: #f2f2f2;
         }
-
         .card-body {
             color: #bfbfbf;
             font-size: 0.95rem;
@@ -188,14 +202,12 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             border-bottom-color: rgba(0, 188, 212, 0.7);
         }
 
-        /* Glow sull'icona dentro la card */
         .icon-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
         }
-
         .icon-large {
             width: 15%;
             max-width: 64px;
@@ -204,14 +216,26 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             opacity: 0.9;
             transition:
                 transform 0.3s ease,
-                opacity 0.3s ease,
-                filter 0.3s ease;
+                opacity 0.3s ease;
         }
-
-        /* Effetto glow al passaggio del mouse */
         .card:hover .icon-large {
             transform: scale(1.2);
             opacity: 1;
+        }
+
+        .load-btn {
+            color: #d16ba5;
+            border: 1px solid rgba(209, 107, 165, 0.5);
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            background: transparent;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        .load-btn:hover {
+            color: #00bcd4;
+            border-color: rgba(0, 188, 212, 0.7);
+            transform: translateY(-1px);
         }
     </style>
 </Layout>

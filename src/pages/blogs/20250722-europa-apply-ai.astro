@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Europa e IA: si muove qualcosa',
+    date: '2025-07-22',
+    description:
+        'L\'Europa annuncia il piano "Apply AI" da 1,1 miliardi per accelerare l\'adozione dell\'intelligenza artificiale, dopo l\'iniziativa delle "AI Gigafactories".',
+    tags: ['tecnologia', 'europa', 'AI', 'innovazione'],
+    icon: 'Cpu'
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>
+                Con il nuovo piano <strong class="text-[#f2f2f2]">"EU Apply AI"</strong>, la Commissione Europea ha annunciato a luglio un investimento di
+                <strong>1,1 miliardi di euro</strong> per portare l'intelligenza artificiale fuori dai laboratori e dentro la vita quotidiana: sanità, pubblica amministrazione,
+                trasporti e piccole imprese.
+            </p>
+
+            <p>
+                È un passo che arriva a pochi mesi di distanza dall'iniziativa delle cosiddette <strong>"AI Gigafactories"</strong>, lanciata in primavera per
+                creare grandi centri di calcolo dedicati all'addestramento dei modelli. Quella era una mossa "di infrastruttura". Questa invece è una mossa "di
+                applicazione".
+            </p>
+
+            <p>
+                Insieme, le due strategie mostrano un'Europa che, almeno sulla carta, sta cercando di recuperare terreno su Stati Uniti e Cina, non solo
+                potenziando la potenza di calcolo, ma anche incentivando chi vuole usare l'IA in modo concreto. Il piano destina fondi a ospedali, comuni e
+                startup, ma anche alla <em>formazione dei lavoratori</em>, che rimane la vera sfida di fondo.
+            </p>
+
+            <p>
+                Personalmente, trovo incoraggiante vedere finalmente un movimento coordinato, anche se il rischio è sempre lo stesso: spendere molto, ma in modo
+                dispersivo. Quello che preoccupa di più è la direzione culturale: troppe persone usano l'intelligenza artificiale per <strong
+                    >farsi sostituire</strong
+                >, invece che per <strong>potenziarsi</strong>. Se l'IA diventa un alibi per smettere di pensare, non sarà mai un progresso vero.
+            </p>
+        </div>
+    </section>
+
+    <style>
+        p strong {
+            color: #d16ba5;
+        }
+        em {
+            color: #00bcd4;
+        }
+    </style>
+</Layout>
