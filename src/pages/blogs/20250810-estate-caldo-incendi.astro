@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Caldo, fiamme e la solita memoria corta',
+    date: '2025-08-10',
+    description: "L'estate 2025 segna nuovi record di caldo e devastanti incendi in tutto il Mediterraneo. Il clima cambia, ma le abitudini umane no.",
+    tags: ['ambiente', 'clima', 'incendi', 'europa'],
+    icon: 'Globe'
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>
+                L'estate 2025 sarà ricordata come una delle più calde e distruttive degli ultimi decenni. Temperature oltre i <strong>45 gradi</strong> in Italia
+                meridionale e Spagna, incendi diffusi in Grecia, Croazia e Sicilia, mari che sembrano caldaie più che ecosistemi. È un copione che conosciamo bene,
+                e che ogni anno sembra riscriversi con una sola differenza: peggiora.
+            </p>
+
+            <p>
+                Le immagini di intere colline in fiamme, i villaggi evacuati, le persone stremate dal caldo sono ormai parte del nostro paesaggio mentale. Si
+                parla di <strong>emergenza climatica</strong>, ma la parola "emergenza" ha perso senso: non si può vivere in emergenza permanente. È diventata
+                la nostra normalità, e forse è questo il punto più inquietante.
+            </p>
+
+            <p>
+                Il problema non è il caldo, né gli incendi. È l'abitudine. Ci si abitua a tutto, anche alla catastrofe, se avviene abbastanza lentamente. Ed è
+                lì che l'essere umano si rivela davvero per quello che è: <em>l'incendiario di casa propria</em>.
+            </p>
+        </div>
+    </section>
+
+    <style>
+        p strong {
+            color: #d16ba5;
+        }
+        em {
+            color: #00bcd4;
+        }
+    </style>
+</Layout>
