@@ -1,36 +1,35 @@
 ---
-const brand = "<DO_>";
+const brand = '<DO_>';
 ---
 
 <div class="logo-wrapper select-none" aria-label="Daniele Odorico logo">
-  <span class="font-terminal text-[#00bcd4] text-3xl sm:text-4xl tracking-widest">
-    &lt;DO<span class="blinking-underscore text-[#d16ba5]">_</span>&gt;
-  </span>
+    <span class="font-terminal text-[#00bcd4] text-3xl sm:text-4xl tracking-widest">
+        &lt;DO<span class="blinking-underscore text-[#d16ba5]">_</span>&gt;
+    </span>
 </div>
-
 <style>
-  .font-terminal {
-    font-family: "Courier New", Courier, monospace;
-    font-weight: bold;
-  }
-
-  .logo-wrapper {
-    background: #000;
-    padding: 0.5rem 1.2rem;
-    border-radius: 6px;
-    box-shadow: 0 0 12px rgba(0, 188, 212, 0.25);
-    display: inline-block;
-    margin-right: 3rem; /* spazio tra logo e menù */
-  }
-
-  .blinking-underscore {
-    display: inline-block;
-    animation: blink 1s steps(2, start) infinite;
-  }
-
-  @keyframes blink {
-    to {
-      visibility: hidden;
+    .font-terminal {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
     }
-  }
+
+    .logo-wrapper {
+        background: #000;
+        padding: 0.5rem 1.2rem;
+        border-radius: 6px;
+        box-shadow: 0 0 12px rgba(0, 188, 212, 0.25);
+        display: inline-block;
+        margin-right: 3rem; /* spazio tra logo e menù */
+    }
+
+    .blinking-underscore {
+        display: inline-block;
+        animation: blink 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+        to {
+            visibility: hidden;
+        }
+    }
 </style>

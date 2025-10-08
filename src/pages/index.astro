@@ -3,111 +3,143 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Daniele Odorico — Full-stack Developer">
+    <!-- HERO -->
+    <section class="mb-12 sm:mb-20">
+        <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4 text-[#f2f2f2]">
+            Ciao, sono
+            <a href="/about" class="no-underline">
+                <span class="text-[#00bcd4]">Daniele Odorico</span>
+            </a>
+        </h1>
 
-  <!-- HERO -->
-  <section class="mb-16 sm:mb-24">
-    <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4 text-[#f2f2f2]">
-      Ciao, sono
-      <a href="/about"class="no-underline">
-        <span class="text-[#00bcd4]">Daniele Odorico</span>
-      </a>
-    </h1>
+        <p class="text-xl sm:text-2xl text-[#cfcfcf] mb-4">Full-stack developer.</p>
 
-    <!-- sottotitolo in bianco opaco -->
-    <p class="text-xl sm:text-2xl text-[#cfcfcf] mb-4">
-      Full-stack developer.
-    </p>
+        <p class="text-lg text-[#b8b8b8] max-w-4xl">
+            Mi occupo di sviluppo front-end e back-end in
+            <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="tag-link">#Angular</a>,
+            <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer" class="tag-link">#TypeScript</a>,
+            <a href="https://www.java.com/it/" target="_blank" rel="noopener noreferrer" class="tag-link">#Java</a> e
+            <span class="tag">#JavaScript</span>.
+        </p>
 
-    <p class="text-lg text-[#b8b8b8] max-w-3xl">
-      Mi occupo di sviluppo front-end e back-end in Angular, TypeScript, Java e JavaScript.
-      Lavoro in GPI SpA, realtà multinazionale del settore sanitario, dove contribuisco alla
-      realizzazione di software dedicati alla gestione dei percorsi assistenziali,
-      servizi territoriali, residenzialità e trasporti sanitari.
-    </p>
+        <div class="max-w-6xl text-justify mt-5">
+            <p class="text-lg text-[#b8b8b8] mx-auto">
+                Lavoro in <a href="https://www.gpi.it" target="_blank" rel="noopener noreferrer" class="link-inline">GPI SpA</a>, realtà multinazionale del
+                settore sanitario, dove contribuisco alla realizzazione di software dedicati alla gestione dei percorsi assistenziali, servizi territoriali,
+                residenzialità e trasporti sanitari.
+            </p>
+        </div>
 
-    <!-- stacco + tag; #competenze link in rosa senza underline -->
-    <p class="text-lg text-[#b8b8b8] mt-5 max-w-3xl">
-      Qui condivido <span class="tag">#progetti</span>,
-      <a href="/skills" class="tag-link">#competenze</a>
-      e qualche riflessione sul mio percorso.
-    </p>
-  </section>
+        <p class="text-lg text-[#b8b8b8] mt-5 max-w-3xl">
+            Qui condivido <span class="tag">#progetti</span>, <span class="tag">#competenze</span> e qualche riflessione sul mio percorso.
+        </p>
+    </section>
 
-  <!-- HIGHLIGHTS -->
-  <section class="grid gap-6 sm:gap-8 sm:grid-cols-3">
-    <article class="card">
-      <h3 class="card-title">Competenze</h3>
-      <p class="card-body">Angular, TypeScript, RxJS, HTML/SCSS, Java, REST, JWT, testing.</p>
-      <a href="/skills" class="card-link">Scopri di più</a>
-    </article>
+    <!-- HIGHLIGHTS -->
+    <section class="mb-2 sm:mb-2">
+        <!-- Titolo sezione -->
+        <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-[#f2f2f2] tracking-wide">Aggiornamenti recenti</h2>
 
-    <article class="card">
-      <h3 class="card-title">Progetti</h3>
-      <p class="card-body">Web app e side-projects con focus su performance e DX.</p>
-      <a href="/projects" class="card-link">Vai al portfolio</a>
-    </article>
+        <!-- Griglia card -->
+        <div class="grid gap-6 sm:gap-8 sm:grid-cols-3">
+            <article class="card">
+                <h3 class="card-title">Competenze</h3>
+                <p class="card-body">Angular, TypeScript, RxJS, HTML/SCSS, Java, REST, JWT, testing.</p>
+                <a href="/skills" class="card-link">Scopri di più</a>
+            </article>
 
-    <article class="card">
-      <h3 class="card-title">Riflessioni</h3>
-      <p class="card-body">Note brevi su sviluppo e organizzazione del lavoro.</p>
-      <a href="/blog" class="card-link">Apri il blog</a>
-    </article>
-  </section>
+            <article class="card">
+                <h3 class="card-title">Progetti</h3>
+                <p class="card-body">Web app e side-projects con focus su performance e DX.</p>
+                <a href="/projects" class="card-link">Vai al portfolio</a>
+            </article>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
-    .tag{
-      font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      color:#00bcd4; background:rgba(255,255,255,.06);
-      padding:.15rem .4rem; border-radius:.35rem;
-    }
+            <article class="card">
+                <h3 class="card-title">Riflessioni</h3>
+                <p class="card-body">Note brevi su sviluppo e organizzazione del lavoro.</p>
+                <a href="/blog" class="card-link">Apri il blog</a>
+            </article>
+        </div>
+    </section>
 
-    /* CTA UNIFORMI (rosa neon) */
-    .cta {
-      display: inline-block;
-      font-size: 1.05rem;
-      padding: 0.9rem 1.1rem;
-      border: 1px solid rgba(209, 107, 165, 0.6);
-      color: #d16ba5;
-      border-radius: 0.6rem;
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-    }
-    .cta:hover {
-      background: rgba(209, 107, 165, 0.12);
-      color: #00bcd4;
-      border-color: rgba(0, 188, 212, 0.8);
-      transform: translateY(-1px);
-    }
+    <style>
+        /* Import font monospace usata per i tag */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
 
-    /* Cards */
-    .card{
-      background:rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:14px; padding:1.25rem;
-      transition:border-color .2s, box-shadow .2s, transform .15s;
-    }
-    .card:hover{ border-color:rgba(0,188,212,.45); box-shadow:0 0 18px rgba(0,188,212,.18); transform:translateY(-2px); }
-    .card-title{ color:#f2f2f2; font-weight:700; margin-bottom:.35rem; }
-    .card-body{ color:#bfbfbf; margin-bottom:.6rem; }
-    .card-link{ color:#00bcd4; border-bottom:1px dashed rgba(0,188,212,.5); }
-    .card-link:hover{ color:#d16ba5; border-bottom-color:#d16ba5; }
+        /* TAG (hashtag azzurri) */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+        }
 
-    /* tag “codice” */
-    .tag{
-      font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      color:#00bcd4; background:rgba(255,255,255,.06);
-      padding:.15rem .4rem; border-radius:.35rem;
-    }
+        /* CARDS */
+        .card {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.25rem;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                transform 0.15s;
+        }
+        .card:hover {
+            border-color: rgba(0, 188, 212, 0.45);
+            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+            transform: translateY(-2px);
+        }
+        .card-title {
+            color: #f2f2f2;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+        .card-body {
+            color: #bfbfbf;
+            margin-bottom: 0.6rem;
+        }
 
-    /* tag-link in rosa, senza underline */
-    .tag-link{
-      font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      color:#d16ba5; background:rgba(255,255,255,.06);
-      padding:.15rem .4rem; border-radius:.35rem;
-      text-decoration:none;
-    }
-    .tag-link:hover{ color:#00bcd4; }
+        /* Link contestuali nelle card */
+        .card-link {
+            color: #d16ba5;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            text-decoration: none;
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+        .card-link:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+        }
 
-  </style>
+        /* tag-link */
+        .tag-link {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #d16ba5;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+            text-decoration: none;
+        }
+        .tag-link:hover {
+            color: #00bcd4;
+        }
 
+        /* link-inline (es. “GPI SpA”) */
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+        }
+    </style>
 </Layout>

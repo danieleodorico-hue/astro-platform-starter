@@ -3,34 +3,33 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="border-t border-[#00bcd4]/30 mt-20 pt-10 pb-8 text-center text-[#aaa] text-sm font-light tracking-wide relative overflow-hidden">
+    <!-- Accent glow line -->
+    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#00bcd4]/0 via-[#00bcd4]/80 to-[#d16ba5]/0"></div>
 
-  <!-- Accent glow line -->
-  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#00bcd4]/0 via-[#00bcd4]/80 to-[#d16ba5]/0"></div>
+    <!-- Contact and socials -->
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-4 font-orbitron text-xs uppercase text-[#f2f2f2]">
+        <a href="mailto:dende2000new@yahoo.it" class="hover:text-[#d16ba5] transition-colors duration-300">Email</a>
+        <a href="https://github.com/danieleodorico-hue" target="_blank" rel="noopener" class="hover:text-[#d16ba5] transition-colors duration-300">GitHub</a>
+        <a
+            href="https://www.linkedin.com/in/daniele-odorico-3376a5345/"
+            target="_blank"
+            rel="noopener"
+            class="hover:text-[#d16ba5] transition-colors duration-300">LinkedIn</a
+        >
+    </div>
 
-  <!-- Contact and socials -->
-  <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-4 font-orbitron text-xs uppercase text-[#f2f2f2]">
-    <a href="mailto:dende2000new@yahoo.it" class="hover:text-[#d16ba5] transition-colors duration-300">Email</a>
-    <a href="https://github.com/danieleodorico-hue" target="_blank" rel="noopener" class="hover:text-[#d16ba5] transition-colors duration-300">GitHub</a>
-    <a href="https://www.linkedin.com/in/daniele-odorico-3376a5345/" target="_blank" rel="noopener" class="hover:text-[#d16ba5] transition-colors duration-300">LinkedIn</a>
-  </div>
+    <!-- Copyright -->
+    <p class="text-xs text-[#777] font-mono">
+        © {currentYear} Daniele Odorico — All rights reserved
+    </p>
 
-  <!-- Copyright -->
-  <p class="text-xs text-[#777] font-mono">
-    © {currentYear} Daniele Odorico — All rights reserved
-  </p>
-
-  <!-- Subtle system tagline -->
-  <!-- <p class="mt-2 text-[11px] text-[#555] font-mono">
-    <span class="text-[#00bcd4]">> system.log</span>("site status: online")
-  </p> -->
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400&display=swap');
-    .font-orbitron {
-      font-family: 'Orbitron', sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-  </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400&display=swap');
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
 </footer>
