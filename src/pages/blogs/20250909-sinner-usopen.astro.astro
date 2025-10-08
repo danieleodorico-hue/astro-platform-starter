@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Sinner trionfa agli US Open',
+    date: '2025-09-09',
+    description: 'Jannik Sinner vince gli US Open 2025. Un risultato straordinario, che conferma il suo talento e la sua maturità, dentro e fuori dal campo.',
+    tags: ['sport', 'tennis', 'USOpen', 'Sinner'],
+    icon: 'Trophy' // https://lucide.dev/icons/
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>
+                <strong class="text-[#f2f2f2]">Jannik Sinner</strong> ce l'ha fatta di nuovo. Campione agli <strong>US Open 2025</strong>.
+            </p>
+
+            <p>
+                Sinner continua a colpirmi per il modo in cui affronta ogni partita: senza teatralità, senza eccessi, con una calma quasi disarmante. In
+                un'epoca in cui molti costruiscono personaggi, lui si limita a essere se stesso. Un campione d'altri tempi.
+            </p>
+
+            <p>
+                Una bella finale: partita solida, giocata con intelligenza e lucidità. Non una partita emozionante o spettacolare, diciamolo, ma proprio per
+                questo è ancora più significativa: Sinner non ha dovuto strafare, gli è bastato fare le cose giuste, con la solita precisione chirurgica.
+            </p>
+
+            <p>Gli highlights ufficiali della finale sono qui sotto 👇</p>
+
+            <div class="video-wrapper mt-6">
+                <iframe
+                    src="https://www.youtube.com/embed/XyQdJspbA4g"
+                    title="Jannik Sinner Wins US Open 2025 | Final Highlights"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                >
+                </iframe>
+            </div>
+
+            <p class="mt-4">
+                Bello vedere un atleta così giovane e composto portare a casa risultati di questo livello. Ogni volta che vince, sembra ricordarci che il
+                talento vale molto, ma che la vera differenza la fa la serenità con cui lo si sa gestire.
+            </p>
+        </div>
+    </section>
+
+    <style>
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</Layout>

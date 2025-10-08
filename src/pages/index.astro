@@ -1,10 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const posts = await Astro.glob('../pages/blogs/*.astro');
+
+const latestPosts = posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date)).slice(0, 3);
 ---
 
 <Layout title="Daniele Odorico — Full-stack Developer">
     <!-- HERO -->
-    <section class="mb-12 sm:mb-20">
+    <section class="mb-8 sm:mb-8">
         <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4 text-[#f2f2f2]">
             Ciao, sono
             <a href="/about" class="no-underline">
@@ -14,7 +18,7 @@ import Layout from '../layouts/Layout.astro';
 
         <p class="text-xl sm:text-2xl text-[#cfcfcf] mb-4">Full-stack developer.</p>
 
-        <p class="text-lg text-[#b8b8b8] max-w-4xl">
+        <p class="text-lg text-[#b8b8b8] max-w-7xl">
             Mi occupo di sviluppo front-end e back-end in
             <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="tag-link">#Angular</a>,
             <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer" class="tag-link">#TypeScript</a>,
@@ -22,7 +26,7 @@ import Layout from '../layouts/Layout.astro';
             <span class="tag">#JavaScript</span>.
         </p>
 
-        <div class="max-w-6xl text-justify mt-5">
+        <div class="max-w-7xl text-justify mt-5">
             <p class="text-lg text-[#b8b8b8] mx-auto">
                 Lavoro in <a href="https://www.gpi.it" target="_blank" rel="noopener noreferrer" class="link-inline">GPI SpA</a>, realtà multinazionale del
                 settore sanitario, dove contribuisco alla realizzazione di software dedicati alla gestione dei percorsi assistenziali, servizi territoriali,
@@ -30,35 +34,28 @@ import Layout from '../layouts/Layout.astro';
             </p>
         </div>
 
-        <p class="text-lg text-[#b8b8b8] mt-5 max-w-3xl">
+        <p class="text-lg text-[#b8b8b8] mt-5 max-w-7xl">
             Qui condivido <span class="tag">#progetti</span>, <span class="tag">#competenze</span> e qualche riflessione sul mio percorso.
         </p>
     </section>
 
     <!-- HIGHLIGHTS -->
-    <section class="mb-2 sm:mb-2">
-        <!-- Titolo sezione -->
+    <section class="mb-1 sm:mb-1">
         <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-[#f2f2f2] tracking-wide">Aggiornamenti recenti</h2>
 
-        <!-- Griglia card -->
         <div class="grid gap-6 sm:gap-8 sm:grid-cols-3">
-            <article class="card">
-                <h3 class="card-title">Competenze</h3>
-                <p class="card-body">Angular, TypeScript, RxJS, HTML/SCSS, Java, REST, JWT, testing.</p>
-                <a href="/skills" class="card-link">Scopri di più</a>
-            </article>
-
-            <article class="card">
-                <h3 class="card-title">Progetti</h3>
-                <p class="card-body">Web app e side-projects con focus su performance e DX.</p>
-                <a href="/projects" class="card-link">Vai al portfolio</a>
-            </article>
-
-            <article class="card">
-                <h3 class="card-title">Riflessioni</h3>
-                <p class="card-body">Note brevi su sviluppo e organizzazione del lavoro.</p>
-                <a href="/blog" class="card-link">Apri il blog</a>
-            </article>
+            {
+                latestPosts.map((post) => (
+                    <article class="card">
+                        <h3 class="card-title">{post.frontmatter.title}</h3>
+                        <p class="text-sm text-[#999] mb-3">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</p>
+                        <p class="card-body">{post.frontmatter.description}</p>
+                        <a href={post.url} class="card-link">
+                            Leggi nel Blog
+                        </a>
+                    </article>
+                ))
+            }
         </div>
     </section>
 

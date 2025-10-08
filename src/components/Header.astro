@@ -1,25 +1,6 @@
 ---
-/** HEADER COMPONENT
-  * -----------------
-  * Questo file genera la barra di navigazione principale del sito.
-  * È un componente Astro riutilizzabile, solitamente incluso nel layout principale (<Layout />).
-  */
-
-import Logo from '../components/Logo.astro'; // (attualmente non usato ma pronto per futura reintroduzione)
-import { Astro } from 'astro'; // modulo di sistema che consente di accedere ai dati di runtime (es. URL corrente)
-
-/** Otteniamo il percorso attuale dalla proprietà `Astro.url.pathname`
-  * — utile per evidenziare dinamicamente il link attivo nel menu.
-  */
 const currentPath = Astro.url.pathname;
 
-/** Lista di voci di navigazione.
-  * Ogni oggetto contiene:
-  * - linkText → testo visualizzato nel menu
-  * - href → percorso relativo alla pagina corrispondente
-  *
-  * L’ordine qui definito stabilisce l’ordine visivo nel DOM.
-  */
 const navItems = [
     { linkText: 'Home', href: '/' },
     { linkText: 'Chi sono', href: '/about' },
@@ -32,83 +13,35 @@ const navItems = [
 
 <!--
   NAVBAR PRINCIPALE
-  -----------------
-  role="navigation" + aria-label="Main" → semantica e accessibilità: identifica l’area come “navigazione principale”.
-  class="flex justify-center items-center ..." → centratura orizzontale e verticale.
-  gap-8 → distanza uniforme tra elementi figli (in questo caso, l’ul principale o eventuale logo).
-  pt/pb → padding top/bottom per spaziatura verticale coerente con il layout generale.
 -->
-<nav
-  role="navigation"
-  aria-label="Main"
-  class="flex justify-center items-center gap-8 pt-4 pb-12 sm:pt-6 sm:pb-16 text-[#f2f2f2]"
->
-  <!--
-    UL → contenitore delle voci di menu.
-    flex + flex-wrap + justify-center → disposizione orizzontale centrata, con possibilità di andare a capo se lo spazio è ridotto (es. su mobile).
-    gap-x-10 / gap-y-2 → spaziatura orizzontale e verticale fra le voci.
-    font-orbitron → font techno/sci-fi scelto per l’estetica cyber del sito.
-    tracking-wide → aumenta la spaziatura tra le lettere.
-    uppercase → rende tutto maiuscolo.
-    text-base / sm:text-lg → grandezza del font responsiva.
-  -->
-  <ul class="flex flex-wrap justify-center gap-x-10 gap-y-2 font-orbitron tracking-wide uppercase text-base sm:text-lg">
-
-    <!--
-      map() → genera dinamicamente un <li> per ogni voce di `navItems`.
-      currentPath === item.href → determina se la voce è quella attiva (pagina corrente).
-      In tal caso viene applicato un colore e una sottolineatura permanente.
-    -->
-    {
-      navItems.map((item) => {
-        const isActive = currentPath === item.href;
-        return (
-          <li>
-            <!--
-              LINK SINGOLO
-              -------------
-              - inline-block → permette di applicare padding e pseudo-elementi.
-              - px-2 py-1 → area cliccabile più confortevole.
-              - transition-all / duration-300 → effetto fluido nei cambi di stato (colore e underline).
-              
-              COLORI:
-              - attivo: rosa (#d16ba5)
-              - inattivo: ciano (#00bcd4), con hover → rosa
-
-              UNDERLINE:
-              - gestito tramite pseudo-elemento after:
-                ▸ posizione assoluta (after:absolute)
-                ▸ altezza 2px (after:h-[2px])
-                ▸ colore rosa (after:bg-[#d16ba5])
-                ▸ larghezza dinamica: 0 → full al passaggio o se attivo
-                ▸ transizione fluida
-            -->
-            <a
-              href={item.href}
-              class={`relative inline-block px-2 py-1 transition-all duration-300
+<nav role="navigation" aria-label="Main" class="flex justify-center items-center gap-8 pt-4 pb-12 sm:pt-6 sm:pb-16 text-[#f2f2f2]">
+    <ul class="flex flex-wrap justify-center gap-x-10 gap-y-2 font-orbitron tracking-wide uppercase text-base sm:text-lg">
+        {
+            navItems.map((item) => {
+                const isActive = currentPath === item.href;
+                return (
+                    <li>
+                        <a
+                            href={item.href}
+                            class={`relative inline-block px-2 py-1 transition-all duration-300
                 ${isActive ? 'text-[#d16ba5]' : 'text-[#00bcd4] hover:text-[#d16ba5]'}
-                after:content-[''] after:absolute after:left-0 after:bottom-0
+                after:content-[''] after:absolute after:left-0 after:bottom-0 
                 after:h-[2px] after:bg-[#d16ba5]
                 ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
                 after:transition-all after:duration-300`}
-            >
-              {item.linkText}
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+                        >
+                            {item.linkText}
+                        </a>
+                    </li>
+                );
+            })
+        }
+    </ul>
 </nav>
 
 <style>
-  /**
-   * FONT ORBITRON
-   * Import Google Fonts: Orbitron → font geometricamente squadrato, ideale per look cyber/futuristico.
-   * .font-orbitron → utility custom per applicarlo al testo.
-   */
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
-  .font-orbitron {
-    font-family: 'Orbitron', sans-serif;
-  }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+    .font-orbitron {
+        font-family: 'Orbitron', sans-serif;
+    }
 </style>

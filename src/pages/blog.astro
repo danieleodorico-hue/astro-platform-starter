@@ -1,25 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Carica tutti i post .astro nella cartella /blogs
-const posts = await Astro.glob('../pages/blogs/*.astro');
+// Importa le icone disponibili (aggiungine altre se servono)
+import { PenTool, Globe, Trophy, Volleyball, BookOpen, Code, FileText, Rocket, Cpu, Newspaper } from 'lucide-astro';
 
-// Ordina per data decrescente
-posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+// Mappa nome → icona
+const iconMap = {
+    PenTool,
+    Globe,
+    Trophy,
+    Volleyball,
+    BookOpen,
+    Code,
+    Rocket,
+    Cpu,
+    Newspaper,
+    FileText // fallback
+};
 
-// Estrai tutti i tag unici dai post
+// Carica tutti i post .astro dalla cartella /blogs
+interface BlogPost {
+    frontmatter: {
+        title: string;
+        date: string;
+        description: string;
+        tags?: string[];
+        icon?: string;
+    };
+    url: string;
+}
+
+const posts = (await Astro.glob<BlogPost>('../pages/blogs/*.astro')).sort(
+    (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+);
+
+// Estrai tutti i tag unici
 const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
 ---
 
 <Layout title="Blog — Daniele Odorico">
-    <section class="mb-12 sm:mb-20">
-        <!-- Titolo e conteggio -->
+    <section class="mb-12 sm:mb-20 max-w-7xl mx-auto">
+        <!-- Titolo + conteggio -->
         <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">Blog</h1>
-        <p class="text-[#b8b8b8] mb-8">
-            {posts.length} articoli pubblicati
-        </p>
+        <p class="text-[#b8b8b8] mb-8">{posts.length} articoli pubblicati</p>
 
-        <!-- Tag filter -->
+        <!-- Filtro per tag -->
         {
             allTags.length > 0 && (
                 <div class="mb-10 flex flex-wrap gap-3">
@@ -35,34 +60,43 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             )
         }
 
-        <!-- Griglia post -->
-        <div id="post-grid" class="grid gap-6 sm:gap-8 sm:grid-cols-3">
+        <!-- Griglia dei post -->
+        <div id="post-grid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {
-                posts.map((post) => (
-                    <article class="post-card" data-tags={(post.frontmatter.tags || []).join(',')}>
-                        <a href={post.url} class="block no-underline">
-                            <h3 class="post-title">{post.frontmatter.title}</h3>
-                            <p class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</p>
-                            <p class="post-excerpt">{post.frontmatter.description}</p>
-                            {post.frontmatter.tags && (
-                                <div class="mt-3 flex flex-wrap gap-2">
-                                    {post.frontmatter.tags.map((t) => (
-                                        <span class="tag-mini">#{t}</span>
-                                    ))}
-                                </div>
-                            )}
-                        </a>
-                    </article>
-                ))
+                posts.map((post) => {
+                    const { title, date, description, tags = [], icon } = post.frontmatter;
+                    const IconComponent = iconMap[icon] || FileText;
+
+                    return (
+                        <article class="card" data-tags={tags.join(',')}>
+                            <div class="icon-wrapper mb-4">
+                                <IconComponent class="icon-large" />
+                            </div>
+
+                            <h3 class="card-title">{title}</h3>
+                            <p class="text-sm text-[#999] mb-3">{new Date(date).toLocaleDateString('it-IT')}</p>
+
+                            <p class="card-body">{description}</p>
+
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                {tags.map((tag) => (
+                                    <span class="tag-mini">{`#${tag}`}</span>
+                                ))}
+                            </div>
+
+                            <a href={post.url} class="card-link mt-3 inline-block">
+                                Leggi l'articolo
+                            </a>
+                        </article>
+                    );
+                })
             }
         </div>
     </section>
-
     <script>
-        // --- Filtro client-side dei post per tag ---
         document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('button.tag');
-            const posts = document.querySelectorAll('#post-grid article');
+            const buttons = document.querySelectorAll('button.tag') as NodeListOf<HTMLButtonElement>;
+            const posts = document.querySelectorAll('#post-grid article') as NodeListOf<HTMLElement>;
 
             buttons.forEach((btn) => {
                 btn.addEventListener('click', () => {
@@ -81,7 +115,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
     </script>
 
     <style>
-        /* TAG generali per filtro */
+        /* TAG filtro */
         .tag {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
             color: #d16ba5;
@@ -103,7 +137,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
             border-color: rgba(0, 188, 212, 0.6);
         }
 
-        /* Mini-tag nei post */
+        /* TAG nei post */
         .tag-mini {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
             font-size: 0.8rem;
@@ -114,36 +148,70 @@ const allTags = [...new Set(posts.flatMap((p) => p.frontmatter.tags || []))];
         }
 
         /* CARD POST */
-        .post-card {
+        .card {
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
-            padding: 1.25rem;
+            padding: 1.4rem;
             transition:
                 border-color 0.2s,
                 box-shadow 0.2s,
                 transform 0.15s;
         }
-        .post-card:hover {
-            border-color: rgba(0, 188, 212, 0.45);
-            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+        .card:hover {
+            border-color: rgba(209, 107, 165, 0.5);
+            box-shadow: 0 0 18px rgba(209, 107, 165, 0.2);
             transform: translateY(-2px);
         }
 
-        .post-title {
-            color: #f2f2f2;
+        .card-title {
             font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 0.3rem;
+            color: #f2f2f2;
         }
-        .post-date {
-            color: #999;
-            font-size: 0.85rem;
-            margin-bottom: 0.4rem;
-        }
-        .post-excerpt {
+
+        .card-body {
             color: #bfbfbf;
             font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-link {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+        .card-link:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+        }
+
+        /* Glow sull'icona dentro la card */
+        .icon-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .icon-large {
+            width: 15%;
+            max-width: 64px;
+            height: auto;
+            color: #d16ba5;
+            opacity: 0.9;
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease,
+                filter 0.3s ease;
+        }
+
+        /* Effetto glow al passaggio del mouse */
+        .card:hover .icon-large {
+            transform: scale(1.2);
+            opacity: 1;
         }
     </style>
 </Layout>

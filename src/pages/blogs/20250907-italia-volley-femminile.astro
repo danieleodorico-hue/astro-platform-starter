@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Italia campione del mondo di volley femminile',
+    date: '2025-09-07',
+    description: "L'Italia del volley femminile conquista il titolo mondiale. Una vittoria che va oltre lo sport: coesione, talento e cuore.",
+    tags: ['sport', 'volley', 'mondiali'],
+    icon: 'Volleyball' // https://lucide.dev/icons/
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>
+                Non so se sia solo una questione di pallavolo. Forse no. Perché quando vedi una squadra come questa — un gruppo che sorride, soffre e combatte
+                come uno solo — la sensazione è che ci sia qualcosa di più.
+            </p>
+
+            <p>
+                L'<strong class="text-[#f2f2f2]">Italia femminile di volley</strong> è campione del mondo 2025. E la cosa più bella non è neanche il titolo in sé,
+                ma il modo in cui è arrivato: con leggerezza, con compattezza, con quel senso di equilibrio che solo le squadre veramente unite sanno mostrare.
+            </p>
+
+            <p>
+                Non è solo sport: è un piccolo promemoria che quando le persone si fidano le une delle altre, i risultati arrivano. E arrivano anche sorridendo.
+            </p>
+
+            <div class="video-wrapper mt-6">
+                <iframe
+                    src="https://www.youtube.com/embed/7i2tOnnRXJk"
+                    title="FIVB Women's Volleyball World Championship 2025 - Italy Champions Highlights"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                >
+                </iframe>
+            </div>
+
+            <p class="mt-4">
+                Guardare la premiazione, vedere le lacrime e gli abbracci, fa pensare che in mezzo a tanto rumore lo sport riesce ancora, ogni tanto, a
+                ricordarci cosa conta davvero.
+            </p>
+        </div>
+    </section>
+
+    <style>
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</Layout>
