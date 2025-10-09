@@ -23,39 +23,37 @@ interface Job {
   };
 }
 
-const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort((a, b) => {
-  const normalizeDate = (d: string) => {
-    if (!d) return new Date(0);
+const normalizeDate = (d: string) => {
+  if (!d) return new Date(0);
 
-    // Se il formato è tipo 200708xx → prendo anno=2007, mese=08, giorno=01
-    if (/^\d{6}xx$/.test(d)) {
-      const year = d.slice(0, 4);
-      const month = d.slice(4, 6);
-      return new Date(`${year}-${month}-01`);
-    }
+  if (/^\d{6}xx$/.test(d)) {
+    // 200708xx → agosto 2007
+    const year = d.slice(0, 4);
+    const month = d.slice(4, 6);
+    return new Date(`${year}-${month}-01`);
+  }
 
-    // Se il formato è tipo 2010xxxx → prendo anno=2010, mese=01, giorno=01
-    if (/^\d{4}xxxx$/.test(d)) {
-      const year = d.slice(0, 4);
-      return new Date(`${year}-01-01`);
-    }
+  if (/^\d{4}xxxx$/.test(d)) {
+    // 2007xxxx → gennaio 2007
+    const year = d.slice(0, 4);
+    return new Date(`${year}-01-01`);
+  }
 
-    // Se è nel formato corretto (yyyy-mm-dd o yyyyMMdd)
-    if (/^\d{8}$/.test(d)) {
-      const year = d.slice(0, 4);
-      const month = d.slice(4, 6);
-      const day = d.slice(6, 8);
-      return new Date(`${year}-${month}-${day}`);
-    }
+  if (/^\d{8}$/.test(d)) {
+    // 20250101 → 1 gennaio 2025
+    const year = d.slice(0, 4);
+    const month = d.slice(4, 6);
+    const day = d.slice(6, 8);
+    return new Date(`${year}-${month}-${day}`);
+  }
 
-    // Se è già nel formato ISO
-    const parsed = new Date(d);
-    return isNaN(parsed.getTime()) ? new Date(0) : parsed;
-  };
+  const parsed = new Date(d);
+  return isNaN(parsed.getTime()) ? new Date(0) : parsed;
+};
 
-  return normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime();
-});
-
+const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
+  (a, b) => normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime()
+);
 
 ---
 
@@ -80,12 +78,42 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort((a, b) => {
           <article class="card fade-in">
             <h3 class="card-title">{title}</h3>
             <p class="text-[#00bcd4] font-mono text-sm mb-2">{company}</p>
-            <p class="text-[#999] text-sm mb-4">
-              {new Date(date.replace(/x/g, '01')).toLocaleDateString('it-IT', {
-                month: 'long',
-                year: 'numeric'
-              })}
-            </p>
+<p class="text-[#999] text-sm mb-4">
+  {
+    (() => {
+      const d = date || '';
+      if (/^\d{6}xx$/.test(d)) {
+        // mostra "agosto 2007"
+        const year = d.slice(0, 4);
+        const month = parseInt(d.slice(4, 6)) - 1;
+        return new Date(year, month, 1).toLocaleDateString('it-IT', {
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+      if (/^\d{4}xxxx$/.test(d)) {
+        // mostra solo l’anno
+        return d.slice(0, 4);
+      }
+      if (/^\d{8}$/.test(d)) {
+        // mostra mese e anno
+        const year = d.slice(0, 4);
+        const month = d.slice(4, 6);
+        const day = d.slice(6, 8);
+        return new Date(`${year}-${month}-${day}`).toLocaleDateString('it-IT', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+      // fallback
+      return new Date(d).toLocaleDateString('it-IT', {
+        month: 'long',
+        year: 'numeric'
+      });
+    })()
+  }
+</p>
             <p class="card-body">{description}</p>
             <div class="flex flex-wrap gap-2 mt-3">
               {tags.map((tag) => (
