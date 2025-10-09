@@ -23,9 +23,20 @@ interface Job {
   };
 }
 
-const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
-  (a, b) => new Date(b.frontmatter.date.replace(/x/g, '01')).getTime() - new Date(a.frontmatter.date.replace(/x/g, '01')).getTime()
-);
+const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort((a, b) => {
+  // Normalizza la data sostituendo ogni 'x' con '01'
+  const normalizeDate = (d: string) => {
+    // Se la stringa non è valida, fallback al 1 gennaio 1970 (in fondo alla timeline)
+    if (!d) return new Date(0);
+    // Sostituisce tutte le x con 01 (per anno/mese/giorno mancanti)
+    const safe = d.replace(/x/g, '01');
+    const parsed = new Date(safe);
+    return isNaN(parsed.getTime()) ? new Date(0) : parsed;
+  };
+
+  return normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime();
+});
+
 ---
 
 <Layout title="Percorso lavorativo — Daniele Odorico">
