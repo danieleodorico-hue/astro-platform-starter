@@ -1,0 +1,9 @@
+---
+export const frontmatter = {
+  title: 'Diploma di perito tecnico informatico',
+  company: 'Scuola Superiore Stimate',
+  date: '2007-08',
+  description: 'Diploma di maturità.',
+  tags: ['Scuola', 'Java', 'TypeScript']
+};
+---
