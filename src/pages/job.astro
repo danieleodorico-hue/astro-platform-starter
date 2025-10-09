@@ -1,7 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Briefcase, Code, Cpu, GraduationCap, PenTool } from 'lucide-astro';
 
-// Importa tutti i file dalla cartella /jobs
+// Mappa icone disponibili
+const iconMap = {
+  Briefcase,
+  Code,
+  Cpu,
+  GraduationCap,
+  PenTool
+};
+
+// Importa i file dalla cartella /jobs
 interface Job {
   frontmatter: {
     title: string;
@@ -9,11 +19,12 @@ interface Job {
     date: string;
     description: string;
     tags?: string[];
+    icon?: string;
   };
 }
 
 const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
-  (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+  (a, b) => new Date(b.frontmatter.date.replace(/x/g, '01')).getTime() - new Date(a.frontmatter.date.replace(/x/g, '01')).getTime()
 );
 ---
 
@@ -23,19 +34,26 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       Percorso lavorativo
     </h1>
 
-    <!-- Linea centrale animata -->
+    <!-- Linea centrale dietro le card -->
     <div class="timeline-line"></div>
 
     {jobs.map((job, index) => {
-      const { title, company, date, description, tags = [] } = job.frontmatter;
+      const { title, company, date, description, tags = [], icon } = job.frontmatter;
       const alignRight = index % 2 === 0;
+      const IconComponent = iconMap[icon] || Briefcase;
       return (
         <div class={`timeline-item ${alignRight ? 'right' : 'left'}`}>
+          <div class="icon-node">
+            <IconComponent class="icon-symbol" />
+          </div>
           <article class="card fade-in">
             <h3 class="card-title">{title}</h3>
             <p class="text-[#00bcd4] font-mono text-sm mb-2">{company}</p>
             <p class="text-[#999] text-sm mb-4">
-              {new Date(date).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+              {new Date(date.replace(/x/g, '01')).toLocaleDateString('it-IT', {
+                month: 'long',
+                year: 'numeric'
+              })}
             </p>
             <p class="card-body">{description}</p>
             <div class="flex flex-wrap gap-2 mt-3">
@@ -50,7 +68,7 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
   </section>
 
   <script>
-    // Evidenzia progressivamente la linea verticale al passaggio dello scroll
+    // Linea che si illumina progressivamente durante lo scroll
     window.addEventListener('scroll', () => {
       const line = document.querySelector('.timeline-line');
       const scrollTop = window.scrollY;
@@ -59,7 +77,7 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       line.style.setProperty('--scroll', `${Math.min(scrollPercent * 100, 100)}%`);
     });
 
-    // Effetto fade-in progressivo delle card
+    // Fade-in per le card
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -68,7 +86,6 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       },
       { threshold: 0.2 }
     );
-
     document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
   </script>
 
@@ -79,26 +96,25 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       padding-right: 1rem;
     }
 
-    /* Linea centrale */
+    /* Linea centrale, dietro le card */
     .timeline-line {
       position: absolute;
       left: 50%;
-      top: 0;
+      top: 5rem; /* parte sotto al titolo */
       bottom: 0;
       width: 2px;
       background: linear-gradient(
         to bottom,
-        rgba(0, 188, 212, 0.25) 0%,
+        rgba(0, 188, 212, 0.15) 0%,
         rgba(0, 188, 212, 0.6) var(--scroll, 0%),
         rgba(0, 188, 212, 0.05) 100%
       );
       transform: translateX(-50%);
       border-radius: 2px;
-      transition: background 0.2s ease-out;
       z-index: 0;
     }
 
-    /* Elementi della timeline */
+    /* Elementi timeline */
     .timeline-item {
       width: 80%;
       position: relative;
@@ -116,25 +132,34 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       text-align: right;
     }
 
-    /* Nodo sulla linea */
-    .timeline-item::before {
-      content: '';
+    /* Nodo con icona */
+    .icon-node {
       position: absolute;
       top: 1.5rem;
-      width: 14px;
-      height: 14px;
+      z-index: 1;
+    }
+
+    .timeline-item.left .icon-node {
+      right: -42px;
+    }
+
+    .timeline-item.right .icon-node {
+      left: -42px;
+    }
+
+    .icon-symbol {
+      width: 22px;
+      height: 22px;
+      color: #00bcd4;
+      background: rgba(0, 188, 212, 0.15);
       border-radius: 50%;
-      background: #00bcd4;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      z-index: 2;
+      padding: 4px;
+      box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+      transition: transform 0.25s ease;
     }
 
-    .timeline-item.left::before {
-      right: -39px;
-    }
-
-    .timeline-item.right::before {
-      left: -39px;
+    .icon-symbol:hover {
+      transform: scale(1.3);
     }
 
     /* Card */
@@ -182,13 +207,12 @@ const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
       border-radius: 0.35rem;
     }
 
-    /* Responsività */
     @media (max-width: 768px) {
       .timeline-item {
         width: 100%;
         text-align: left !important;
       }
-      .timeline-item::before {
+      .icon-node {
         left: -30px !important;
         right: auto !important;
       }
