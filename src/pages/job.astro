@@ -1,284 +1,303 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Briefcase, Code, Cpu, GraduationCap, PenTool } from 'lucide-astro';
+import { Briefcase, Code, Cpu, GraduationCap, PenTool, Server, Workflow, BookOpen } from 'lucide-astro';
 
 // Mappa icone disponibili
 const iconMap = {
-  Briefcase,
-  Code,
-  Cpu,
-  GraduationCap,
-  PenTool
+    Briefcase,
+    Code,
+    Cpu,
+    GraduationCap,
+    PenTool,
+    Server,
+    Workflow,
+    BookOpen
 };
 
 // Importa i file dalla cartella /jobs
 interface Job {
-  frontmatter: {
-    title: string;
-    company: string;
-    date: string;
-    description: string;
-    tags?: string[];
-    icon?: string;
-  };
+    frontmatter: {
+        title: string;
+        company: string;
+        date: string;
+        description: string;
+        tags?: string[];
+        icon?: string;
+    };
 }
 
 const normalizeDate = (d: string) => {
-  if (!d) return new Date(0);
+    if (!d) return new Date(0);
 
-  if (/^\d{6}xx$/.test(d)) {
-    // 200708xx → agosto 2007
-    const year = d.slice(0, 4);
-    const month = d.slice(4, 6);
-    return new Date(`${year}-${month}-01`);
-  }
-
-  if (/^\d{4}xxxx$/.test(d)) {
-    // 2007xxxx → gennaio 2007
-    const year = d.slice(0, 4);
-    return new Date(`${year}-01-01`);
-  }
-
-  if (/^\d{8}$/.test(d)) {
-    // 20250101 → 1 gennaio 2025
-    const year = d.slice(0, 4);
-    const month = d.slice(4, 6);
-    const day = d.slice(6, 8);
-    return new Date(`${year}-${month}-${day}`);
-  }
-
-  const parsed = new Date(d);
-  return isNaN(parsed.getTime()) ? new Date(0) : parsed;
-};
-
-const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
-  (a, b) => normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime()
-);
-
----
-
-<Layout title="Percorso lavorativo — Daniele Odorico">
-  <section class="timeline max-w-7xl mx-auto my-20 relative">
-    <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-10 text-[#f2f2f2] text-center">
-      Percorso lavorativo
-    </h1>
-
-    <!-- Linea centrale dietro le card -->
-    <div class="timeline-line"></div>
-
-    {jobs.map((job, index) => {
-      const { title, company, date, description, tags = [], icon } = job.frontmatter;
-      const alignRight = index % 2 === 0;
-      const IconComponent = iconMap[icon] || Briefcase;
-      return (
-        <div class={`timeline-item ${alignRight ? 'right' : 'left'}`}>
-          <div class="icon-node">
-            <IconComponent class="icon-symbol" />
-          </div>
-          <article class="card fade-in">
-            <h3 class="card-title">{title}</h3>
-            <p class="text-[#00bcd4] font-mono text-sm mb-2">{company}</p>
-<p class="text-[#999] text-sm mb-4">
-  {
-    (() => {
-      const d = date || '';
-      if (/^\d{6}xx$/.test(d)) {
-        // mostra "agosto 2007"
+    if (/^\d{6}xx$/.test(d)) {
+        // 200708xx → agosto 2007
         const year = d.slice(0, 4);
-        const month = parseInt(d.slice(4, 6)) - 1;
-        return new Date(year, month, 1).toLocaleDateString('it-IT', {
-          month: 'long',
-          year: 'numeric'
-        });
-      }
-      if (/^\d{4}xxxx$/.test(d)) {
-        // mostra solo l’anno
-        return d.slice(0, 4);
-      }
-      if (/^\d{8}$/.test(d)) {
-        // mostra mese e anno
+        const month = d.slice(4, 6);
+        return new Date(`${year}-${month}-01`);
+    }
+
+    if (/^\d{4}xxxx$/.test(d)) {
+        // 2007xxxx → gennaio 2007
+        const year = d.slice(0, 4);
+        return new Date(`${year}-01-01`);
+    }
+
+    if (/^\d{8}$/.test(d)) {
+        // 20250101 → 1 gennaio 2025
         const year = d.slice(0, 4);
         const month = d.slice(4, 6);
         const day = d.slice(6, 8);
-        return new Date(`${year}-${month}-${day}`).toLocaleDateString('it-IT', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        });
-      }
-      // fallback
-      return new Date(d).toLocaleDateString('it-IT', {
+        return new Date(`${year}-${month}-${day}`);
+    }
+
+    const parsed = new Date(d);
+    return isNaN(parsed.getTime()) ? new Date(0) : parsed;
+};
+
+const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
+    (a, b) => normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime()
+);
+
+const formatDate = (input: string | number): string => {
+    if (!input) return '';
+    const d = String(input);
+
+    // Identifica tipo di formato e normalizza
+    let year = 0,
+        month = 0,
+        day = 1;
+
+    if (/^\d{4}xxxx$/.test(d)) {
+        // 2007xxxx → solo anno
+        return d.slice(0, 4);
+    } else if (/^\d{6}xx$/.test(d)) {
+        // 200708xx → mese/anno
+        [year, month] = [d.slice(0, 4), d.slice(4, 6)].map(Number);
+    } else if (/^\d{8}$/.test(d)) {
+        // 20250101 → giorno/mese/anno
+        [year, month, day] = [d.slice(0, 4), d.slice(4, 6), d.slice(6, 8)].map(Number);
+    } else if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+        // 2020-01-01
+        [year, month, day] = d.split('-').map(Number);
+    } else if (/^\d{4}-\d{2}$/.test(d)) {
+        // 2007-08
+        [year, month] = d.split('-').map(Number);
+    } else {
+        const parsed = new Date(d);
+        if (isNaN(parsed.getTime())) return '';
+        year = parsed.getFullYear();
+        month = parsed.getMonth() + 1;
+        day = parsed.getDate();
+    }
+
+    const date = new Date(year, month - 1, day);
+    const opts: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
         month: 'long',
-        year: 'numeric'
-      });
-    })()
-  }
-</p>
-            <p class="card-body">{description}</p>
-            <div class="flex flex-wrap gap-2 mt-3">
-              {tags.map((tag) => (
-                <span class="tag-mini">{`#${tag}`}</span>
-              ))}
-            </div>
-          </article>
-        </div>
-      );
-    })}
-  </section>
+        ...(day !== 1 || /\d{8}|\d{4}-\d{2}-\d{2}/.test(d) ? { day: '2-digit' } : {})
+    };
 
-  <script>
-    // Linea che si illumina progressivamente durante lo scroll
-    window.addEventListener('scroll', () => {
-      const line = document.querySelector('.timeline-line');
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
-      line.style.setProperty('--scroll', `${Math.min(scrollPercent * 100, 100)}%`);
-    });
+    return date.toLocaleDateString('it-IT', opts);
+};
+---
 
-    // Fade-in per le card
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
+<Layout title="Percorso lavorativo — Daniele Odorico">
+    <section class="timeline max-w-7xl mx-auto my-20 relative">
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-20 text-[#f2f2f2] text-center">Percorso lavorativo</h1>
+
+        <!-- Linea centrale dietro le card -->
+        <div class="timeline-line"></div>
+
+        {
+            jobs.map((job, index) => {
+                const { title, company, date, description, tags = [], icon } = job.frontmatter;
+                const alignRight = index % 2 === 0;
+                const IconComponent = iconMap[icon] || Briefcase;
+                return (
+                    <div class={`timeline-item ${alignRight ? 'right' : 'left'}`}>
+                        <div class="icon-node">
+                            <IconComponent class="icon-symbol" />
+                        </div>
+                        <article class="card fade-in">
+                            <h3 class="card-title">{title}</h3>
+                            <p class="text-[#00bcd4] font-mono text-sm mb-2">{company}</p>
+                            <p class="text-[#999] text-sm mb-4">{formatDate(date)}</p>
+                            <p class="card-body">{description}</p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                {tags.map((tag) => (
+                                    <span class="tag-mini">{`#${tag}`}</span>
+                                ))}
+                            </div>
+                        </article>
+                    </div>
+                );
+            })
+        }
+    </section>
+
+    <script>
+        // Linea che si illumina progressivamente durante lo scroll
+        window.addEventListener('scroll', () => {
+            const line = document.querySelector('.timeline-line');
+            if (line instanceof HTMLElement) {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = scrollTop / docHeight;
+                line.style.setProperty('--scroll', `${Math.min(scrollPercent * 100, 100)}%`);
+            }
         });
-      },
-      { threshold: 0.2 }
-    );
-    document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
-  </script>
 
-  <style>
-    .timeline {
-      position: relative;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
+        // Fade-in per le card
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            },
+            { threshold: 0.2 }
+        );
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+    </script>
 
-    /* Linea centrale, dietro le card */
-    .timeline-line {
-      position: absolute;
-      left: 50%;
-      top: 5rem; /* parte sotto al titolo */
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 188, 212, 0.15) 0%,
-        rgba(0, 188, 212, 0.6) var(--scroll, 0%),
-        rgba(0, 188, 212, 0.05) 100%
-      );
-      transform: translateX(-50%);
-      border-radius: 2px;
-      z-index: 0;
-    }
+    <style>
+        .timeline {
+            position: relative;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
 
-    /* Elementi timeline */
-    .timeline-item {
-      width: 80%;
-      position: relative;
-      margin-bottom: 4rem;
-      z-index: 1;
-    }
+        /* Linea centrale, dietro le card */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 5rem;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 79, 174, 0.6) 0%,
+                /* rosa più intenso in alto */ rgba(255, 79, 174, 0.45) 25%,
+                rgba(0, 188, 212, 0.55) 75%,
+                /* azzurro più brillante in basso */ rgba(0, 188, 212, 0.4) 100%
+            );
+            transform: translateX(-50%);
+            border-radius: 2px;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    .timeline-item.left {
-      margin-left: 0;
-      text-align: left;
-    }
+        /* Elementi timeline */
+        .timeline-item {
+            width: 80%;
+            position: relative;
+            margin-bottom: 4rem;
+            z-index: 1;
+        }
 
-    .timeline-item.right {
-      margin-left: auto;
-      text-align: right;
-    }
+        .timeline-item.left {
+            margin-left: 0;
+            text-align: left;
+        }
 
-    /* Nodo con icona */
-    .icon-node {
-      position: absolute;
-      top: 1.5rem;
-      z-index: 1;
-    }
+        .timeline-item.right {
+            margin-left: auto;
+            text-align: right;
+        }
 
-    .timeline-item.left .icon-node {
-      right: -42px;
-    }
+        /* Nodo con icona */
+        /* Nodo con icona */
+        .icon-node {
+            position: absolute;
+            top: 1.5rem;
+            z-index: 1;
+        }
 
-    .timeline-item.right .icon-node {
-      left: -42px;
-    }
+        /* Spostamento orizzontale più ampio */
+        .timeline-item.left .icon-node {
+            right: -58px; /* prima era -42px */
+        }
 
-    .icon-symbol {
-      width: 22px;
-      height: 22px;
-      color: #00bcd4;
-      background: rgba(0, 188, 212, 0.15);
-      border-radius: 50%;
-      padding: 4px;
-      box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
-      transition: transform 0.25s ease;
-    }
+        .timeline-item.right .icon-node {
+            left: -58px; /* prima era -42px */
+        }
 
-    .icon-symbol:hover {
-      transform: scale(1.3);
-    }
+        /* Icona */
+        .icon-symbol {
+            width: 48px;
+            height: 48px;
+            color: #ff4fae;
+            background: rgba(255, 79, 174, 0.12);
+            border-radius: 50%;
+            padding: 8px;
+            transition:
+                transform 0.25s ease,
+                background-color 0.25s ease;
+        }
 
-    /* Card */
-    .card {
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 1.5rem;
-      box-shadow: 0 0 15px rgba(0, 188, 212, 0.12);
-      transition:
-        border-color 0.2s,
-        transform 0.2s,
-        opacity 0.6s ease;
-      opacity: 0;
-      transform: translateY(20px);
-    }
+        .icon-symbol:hover {
+            transform: scale(1.1);
+            background: rgba(255, 79, 174, 0.25);
+        }
 
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        /* Card */
+        .card {
+            position: relative;
+            background: #0b0e14;
+            border: 1px solid rgba(0, 188, 212, 0.25); /* bordo azzurro più netto */
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: 0 0 12px rgba(0, 188, 212, 0.08); /* leggero effetto soft */
+            transition:
+                border-color 0.25s ease,
+                transform 0.25s ease,
+                opacity 0.6s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-    .card:hover {
-      border-color: rgba(0, 188, 212, 0.5);
-      transform: translateY(-2px);
-    }
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .card-title {
-      color: #f2f2f2;
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-    }
+        .card:hover {
+            border-color: rgba(0, 188, 212, 0.5);
+            transform: translateY(-2px);
+        }
 
-    .card-body {
-      color: #bfbfbf;
-      line-height: 1.6;
-    }
+        .card-title {
+            color: #f2f2f2;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
 
-    .tag-mini {
-      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.8rem;
-      color: #00bcd4;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 0.15rem 0.35rem;
-      border-radius: 0.35rem;
-    }
+        .card-body {
+            color: #bfbfbf;
+            line-height: 1.6;
+        }
 
-    @media (max-width: 768px) {
-      .timeline-item {
-        width: 100%;
-        text-align: left !important;
-      }
-      .icon-node {
-        left: -30px !important;
-        right: auto !important;
-      }
-      .timeline-line {
-        left: 8px;
-        transform: none;
-      }
-    }
-  </style>
+        .tag-mini {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item {
+                width: 100%;
+                text-align: left !important;
+            }
+            .icon-node {
+                left: -30px !important;
+                right: auto !important;
+            }
+            .timeline-line {
+                left: 8px;
+                transform: none;
+            }
+        }
+    </style>
 </Layout>
