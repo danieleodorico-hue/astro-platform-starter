@@ -12,7 +12,7 @@ export const frontmatter = {
 ---
 
 <Layout title={frontmatter.title}>
-    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+    <section class="mb-12 sm:mb-20 max-w-5xl mx-auto">
         <!-- Titolo e data -->
         <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
         <p class="text-sm text-[#999] mb-8">
@@ -25,37 +25,40 @@ export const frontmatter = {
             }
         </p>
 
-        <!-- Immagine di apertura -->
-        <div class="mb-8 rounded-2xl overflow-hidden shadow-lg border border-[#222]">
-            <img
-                src="/images/blog/20251005-giochi-da-tavolo.png"
-                alt="Giocare insieme in famiglia attorno a un tavolo"
-                class="w-full h-auto object-cover"
-                loading="lazy"
-            />
-        </div>
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img
+                    src="/images/blog/20251005-giochi-da-tavolo.png"
+                    alt="Famiglia che gioca a un gioco da tavolo in stile cyberpunk"
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                />
+            </div>
 
-        <!-- Corpo articolo -->
-        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
-            <p>
-                Ho letto con piacere un articolo di
-                <a href="https://www.wired.it/article/giochi-da-tavolo-benessere-famiglia/" target="_blank" rel="noopener noreferrer" class="link-inline"
-                    >Wired</a
-                >
-                dedicato al crescente successo dei giochi da tavolo.
-            </p>
+            <!-- Testo -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>
+                    Ho letto con piacere un articolo di
+                    <a href="https://www.wired.it/article/giochi-da-tavolo-benessere-famiglia/" target="_blank" rel="noopener noreferrer" class="link-inline"
+                        >Wired</a
+                    >
+                    dedicato al crescente successo dei giochi da tavolo.
+                </p>
 
-            <p>
-                Sono tra i miei hobby preferiti, e in famiglia ci giochiamo spesso: è un modo genuino per stare insieme, ridere e discutere senza schermi di
-                mezzo. Ogni partita diventa una scusa perfetta per rallentare e condividere un po’ di tempo vero.
-            </p>
+                <p>
+                    Sono tra i miei hobby preferiti, e in famiglia ci giochiamo spesso: è un modo genuino per stare insieme, ridere e discutere senza schermi di
+                    mezzo. Ogni partita diventa una scusa perfetta per rallentare e condividere un po’ di tempo vero.
+                </p>
 
-            <p>
-                Di solito cerco giochi “intelligenti” e stimolanti — quelli che richiedono un minimo di pianificazione, offrono scelte reali e lasciano poco
-                spazio al caso. Spesso sono titoli di peso medio, con regolamenti corposi e meccaniche abbastanza complesse, ma anche molto appaganti. Hanno
-                poco a che vedere con il buon vecchio
-                <em>Monopoly</em> con cui giocavo da piccolo: oggi preferisco esperienze di gioco più mature, che coinvolgono la mente e richiedono impegno.
-            </p>
+                <p>
+                    Di solito cerco giochi “intelligenti” e stimolanti — quelli che richiedono un minimo di pianificazione, offrono scelte reali e lasciano poco
+                    spazio al caso. Spesso sono titoli di peso medio, con regolamenti corposi e meccaniche complesse ma appaganti. Hanno poco a che vedere con
+                    il buon vecchio
+                    <em>Monopoly</em> con cui giocavo da piccolo: oggi preferisco esperienze più mature, che coinvolgono la mente tanto quanto la compagnia.
+                </p>
+            </div>
         </div>
     </section>
 

@@ -7,6 +7,7 @@ export const frontmatter = {
     description:
         'Al via la nuova stagione del programma di geopolitica "Il Grande Gioco", con il solito ottimo Dario Fabbri e nuove analisi sui temi internazionali.',
     tags: ['geopolitica', 'analisi', 'media'],
+    extratags: ['DarioFabbri', 'IlGrandeGioco'],
     icon: 'Globe' // https://lucide.dev/icons/
 };
 ---
@@ -35,13 +36,14 @@ export const frontmatter = {
 
             <p>
                 Dario Fabbri resta uno dei miei analisti geopolitici preferiti, sebbene trovi il suo personaggio un po' “costruito”. Non sempre condivido i suoi
-                punti di vista, ma riesce comunque a offrire spunti profondi e una visione ampia del mondo.
+                punti di vista (<i>soprattutto quando parla di tecnologia, materia che gli è chiaramente estranea</i>), ma riesce comunque a offrire spunti
+                profondi e una visione ampia del mondo.
             </p>
 
             <p>Se vuoi recuperare la puntata completa, puoi guardarla qui sotto 👇</p>
 
             <!-- Video YouTube responsivo -->
-            <div class="video-wrapper mt-6">
+            <div class="video-wrapper mt-6 mb-12">
                 <iframe
                     src="https://www.youtube.com/embed/oPI_q6fQF0s"
                     title="Il Grande Gioco - San Marino RTV"
@@ -50,10 +52,40 @@ export const frontmatter = {
                     allowfullscreen
                     loading="lazy"></iframe>
             </div>
+
+            <!-- Hashtag -->
+            <div class="flex flex-wrap gap-2 mt-8">
+                {
+                    frontmatter.tags.map((tag) => (
+                        <a href={`/tags/${tag.toLowerCase()}`} class="tag">
+                            #{tag}
+                        </a>
+                    ))
+                }
+                {
+                    frontmatter.extratags.map((tag) => (
+                        <a href={`/tags/${tag.toLowerCase()}`} class="tag">
+                            #{tag}
+                        </a>
+                    ))
+                }
+            </div>
         </div>
     </section>
 
     <style>
+        /* Import font monospace usata per i tag */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+        /* TAG (hashtag azzurri) */
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.35rem;
+        }
+
         /* Wrapper responsivo per il video */
         .video-wrapper {
             position: relative;
