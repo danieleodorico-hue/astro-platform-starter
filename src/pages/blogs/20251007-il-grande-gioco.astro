@@ -53,22 +53,9 @@ export const frontmatter = {
                     loading="lazy"></iframe>
             </div>
 
-            <!-- Hashtag -->
+            <!-- Hashtag statici -->
             <div class="flex flex-wrap gap-2 mt-8">
-                {
-                    frontmatter.tags.map((tag) => (
-                        <a href={`/tags/${tag.toLowerCase()}`} class="tag">
-                            #{tag}
-                        </a>
-                    ))
-                }
-                {
-                    frontmatter.extratags.map((tag) => (
-                        <a href={`/tags/${tag.toLowerCase()}`} class="tag">
-                            #{tag}
-                        </a>
-                    ))
-                }
+                {[...(frontmatter.tags || []), ...(frontmatter.extratags || [])].map((tag) => <span class="tag">#{tag}</span>)}
             </div>
         </div>
     </section>

@@ -19,11 +19,16 @@ const posts = (await Astro.glob<BlogPost>('../pages/blogs/*.astro')).sort(
     (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
 );
 
-// Conta tag e tieni solo i 10 più usati
+// Conta tutte le occorrenze dei tag
 const tagCounts = posts.flatMap((p) => p.frontmatter.tags || []).reduce((acc, tag) => ((acc[tag] = (acc[tag] || 0) + 1), acc), {});
-const allTags = Object.keys(tagCounts)
-    .sort((a, b) => tagCounts[b] - tagCounts[a])
-    .slice(0, 10);
+
+// Ordina tutti i tag dal più usato al meno usato
+// Ordina tutti i tag: prima per frequenza (discendente), poi alfabeticamente
+const sortedTags = Object.entries(tagCounts).sort((a, b) => {
+    const countDiff = (b[1] as number) - (a[1] as number);
+    if (countDiff !== 0) return countDiff;
+    return a[0].localeCompare(b[0], 'it', { sensitivity: 'base' });
+});
 ---
 
 <Layout title="Blog — Daniele Odorico">
@@ -33,16 +38,24 @@ const allTags = Object.keys(tagCounts)
 
         <!-- TAG FILTER -->
         {
-            allTags.length > 0 && (
-                <div class="mb-10 flex flex-wrap gap-3">
+            sortedTags.length > 0 && (
+                <div class="mb-10 flex flex-wrap gap-3 items-center">
                     <button class="tag active" data-tag="all">
                         #tutti
                     </button>
-                    {allTags.map((tag) => (
-                        <button class="tag" data-tag={tag}>
+
+                    {sortedTags.map(([tag, count], i) => (
+                        <button class={`tag ${i >= 12 ? 'hidden-tag hidden' : ''}`} data-tag={tag}>
                             #{tag}
+                            <span class="count">({count})</span>
                         </button>
                     ))}
+
+                    {sortedTags.length > 12 && (
+                        <button id="toggle-tags" class="tag toggle-tag">
+                            […]
+                        </button>
+                    )}
                 </div>
             )
         }
@@ -101,6 +114,34 @@ const allTags = Object.keys(tagCounts)
 
             renderPosts();
         });
+
+        // Gestione visibilità dei tag extra (con animazione fade)
+        const toggleBtn = document.getElementById('toggle-tags');
+        if (toggleBtn) {
+            const hiddenTags = document.querySelectorAll('.hidden-tag');
+
+            toggleBtn.addEventListener('click', () => {
+                const isHidden = hiddenTags[0]?.classList.contains('hidden');
+
+                hiddenTags.forEach((t) => {
+                    if (isHidden) {
+                        // Mostra con fade-in
+                        t.classList.remove('hidden');
+                        t.classList.add('fade-in');
+                        setTimeout(() => t.classList.remove('fade-in'), 300);
+                    } else {
+                        // Nascondi con fade-out
+                        t.classList.add('fade-out');
+                        setTimeout(() => {
+                            t.classList.add('hidden');
+                            t.classList.remove('fade-out');
+                        }, 300);
+                    }
+                });
+
+                toggleBtn.textContent = isHidden ? '[-]' : '[…]';
+            });
+        }
     </script>
 
     <!-- TEMPLATE POST -->
@@ -143,24 +184,67 @@ const allTags = Object.keys(tagCounts)
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: lowercase;
+            white-space: nowrap;
         }
+
         .tag:hover {
             color: #00bcd4;
             border-color: rgba(0, 188, 212, 0.6);
         }
+
         .tag.active {
             background: rgba(209, 107, 165, 0.15);
             color: #00bcd4;
             border-color: rgba(0, 188, 212, 0.6);
         }
 
-        .tag-mini {
-            font-family: 'JetBrains Mono', ui-monospace;
-            font-size: 0.8rem;
-            color: #00bcd4;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
+        .toggle-tag {
+            font-weight: 700;
+            border-style: solid;
+            border-color: rgba(209, 107, 165, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .count {
+            font-size: 0.85em;
+            color: #777;
+            margin-left: 0.3em;
+        }
+
+        /* Tag nascosti di default */
+        .hidden-tag.hidden {
+            display: none !important;
+        }
+
+        /* Fade animazioni */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s ease forwards;
         }
 
         .card {
