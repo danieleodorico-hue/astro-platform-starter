@@ -19,9 +19,25 @@ const iconMap = {
 interface Job {
     frontmatter: {
         title: string;
-        company: string;
-        date: string;
-        description: string;
+        jobDuties: [
+            {
+                title: string;
+                description: string;
+            }
+        ];
+        company: {
+            description: string;
+            type: string;
+            website?: string;
+            address?: {
+                line1?: string;
+                line2?: string;
+                line3?: string;
+            };
+            contacts?: string;
+        };
+        dateFrom: string;
+        dateTo?: string | null;
         tags?: string[];
         icon?: string;
     };
@@ -56,7 +72,7 @@ const normalizeDate = (d: string) => {
 };
 
 const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
-    (a, b) => normalizeDate(b.frontmatter.date).getTime() - normalizeDate(a.frontmatter.date).getTime()
+    (a, b) => normalizeDate(b.frontmatter.dateFrom).getTime() - normalizeDate(a.frontmatter.dateFrom).getTime()
 );
 
 const formatDate = (input: string | number): string => {
@@ -111,7 +127,7 @@ const formatDate = (input: string | number): string => {
 
         {
             jobs.map((job, index) => {
-                const { title, company, date, description, tags = [], icon } = job.frontmatter;
+                const { title, company, dateFrom, dateTo, tags = [], icon, jobDuties = [] } = job.frontmatter;
                 const alignRight = index % 2 === 0;
                 const IconComponent = iconMap[icon] || Briefcase;
                 return (
@@ -120,11 +136,73 @@ const formatDate = (input: string | number): string => {
                             <IconComponent class="icon-symbol" />
                         </div>
                         <article class="card fade-in">
+                            {/* Titolo principale */}
                             <h3 class="card-title">{title}</h3>
-                            <p class="text-[#00bcd4] font-mono text-sm mb-2">{company}</p>
-                            <p class="text-[#999] text-sm mb-4">{formatDate(date)}</p>
-                            <p class="card-body">{description}</p>
-                            <div class="flex flex-wrap gap-2 mt-3">
+
+                            {/* Date */}
+                            <p class="text-[#999] text-sm mb-4">
+                                {formatDate(dateFrom)} — {dateTo ? formatDate(dateTo) : 'oggi'}
+                            </p>
+
+                            {/* Azienda */}
+                            <div class="company-info">
+                                <p
+                                    class={`text-[#00bcd4] font-mono text-sm cursor-pointer underline decoration-dotted hover:text-[#00eaff] flex items-center gap-1 ${alignRight ? 'justify-end' : 'justify-start'}`}
+                                    data-toggle="company"
+                                >
+                                    {company.description}
+                                    <span class="arrow">▼</span>
+                                </p>
+
+                                <div class={`company-details collapsed mt-2 text-sm text-[#aaa] leading-relaxed ${alignRight ? 'text-right' : 'text-left'}`}>
+                                    {company.type && (
+                                        <p class="mt-1">
+                                            <strong>{company.type}</strong>
+                                        </p>
+                                    )}
+                                    {company.website && (
+                                        <p>
+                                            <a href={company.website} target="_blank" rel="noopener noreferrer" class="text-[#00bcd4] hover:underline">
+                                                {company.website}
+                                            </a>
+                                        </p>
+                                    )}
+                                    {company.address && (
+                                        <>
+                                            {company.address.line1 && <p>{company.address.line1}</p>}
+                                            {company.address.line2 && <p>{company.address.line2}</p>}
+                                            {company.address.line3 && <p>{company.address.line3}</p>}
+                                        </>
+                                    )}
+                                    {company.contacts && <p class="mt-1">{company.contacts}</p>}
+                                </div>
+                            </div>
+
+                            {/* Mansioni */}
+                            {jobDuties.length > 0 && (
+                                <div class="duties-list mt-4">
+                                    {jobDuties.map((duty, idx) => (
+                                        <div class="duty-item mb-3">
+                                            <p
+                                                class={`text-[#00bcd4] font-mono text-sm cursor-pointer underline decoration-dotted hover:text-[#00eaff] flex items-center gap-1 ${alignRight ? 'justify-end' : 'justify-start'}`}
+                                                data-toggle={`duty-${index}-${idx}`}
+                                            >
+                                                {duty.title}
+                                                <span class="arrow">▲</span>
+                                            </p>
+
+                                            <div
+                                                class={`duty-details mt-2 text-sm text-[#bfbfbf] leading-relaxed bg-[rgba(255,255,255,0.03)] border border-[rgba(0,188,212,0.15)] rounded-lg p-3 inline-block w-full box-border shadow-[inset_0_0_8px_rgba(0,188,212,0.05)] ${alignRight ? 'text-right' : 'text-left'}`}
+                                            >
+                                                {Array.isArray(duty.description) ? duty.description.map((line) => <p>{line}</p>) : duty.description}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Tag */}
+                            <div class="flex flex-wrap gap-2 mt-4">
                                 {tags.map((tag) => (
                                     <span class="tag-mini">{`#${tag}`}</span>
                                 ))}
@@ -137,6 +215,24 @@ const formatDate = (input: string | number): string => {
     </section>
 
     <script>
+        // Dettagli company
+        function toggleDetails(el) {
+            const details = el.nextElementSibling;
+            const arrow = el.querySelector('.arrow');
+            if (!details) return;
+
+            const willOpen = details.classList.contains('collapsed');
+            details.classList.toggle('collapsed');
+
+            if (arrow) {
+                arrow.textContent = willOpen ? '▲' : '▼';
+            }
+        }
+
+        document.querySelectorAll('[data-toggle]').forEach((el) => {
+            el.addEventListener('click', () => toggleDetails(el));
+        });
+
         // Linea che si illumina progressivamente durante lo scroll
         window.addEventListener('scroll', () => {
             const line = document.querySelector('.timeline-line');
@@ -205,14 +301,6 @@ const formatDate = (input: string | number): string => {
             text-align: right;
         }
 
-        /* Nodo con icona */
-        /* Nodo con icona */
-        .icon-node {
-            position: absolute;
-            top: 1.5rem;
-            z-index: 1;
-        }
-
         /* Spostamento orizzontale più ampio */
         .timeline-item.left .icon-node {
             right: -58px; /* prima era -42px */
@@ -220,6 +308,13 @@ const formatDate = (input: string | number): string => {
 
         .timeline-item.right .icon-node {
             left: -58px; /* prima era -42px */
+        }
+
+        /* Nodo con icona */
+        .icon-node {
+            position: absolute;
+            top: 1.5rem;
+            z-index: 1;
         }
 
         /* Icona */
@@ -299,6 +394,34 @@ const formatDate = (input: string | number): string => {
                 left: 8px;
                 transform: none;
             }
+        }
+
+        .company-details,
+        .duty-details {
+            transition: all 0.35s ease;
+            overflow: hidden;
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 188, 212, 0.15);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 0.6rem;
+            display: inline-block;
+            width: 100%;
+            box-shadow: inset 0 0 8px rgba(0, 188, 212, 0.05);
+            max-height: 500px;
+        }
+
+        .company-details.collapsed,
+        .duty-details.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .arrow {
+            display: inline-block;
         }
     </style>
 </Layout>
