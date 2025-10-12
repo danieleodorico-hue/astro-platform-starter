@@ -167,13 +167,7 @@ const formatDate = (input: string | number): string => {
                                             </a>
                                         </p>
                                     )}
-                                    {company.address && (
-                                        <>
-                                            {company.address.line1 && <p>{company.address.line1}</p>}
-                                            {company.address.line2 && <p>{company.address.line2}</p>}
-                                            {company.address.line3 && <p>{company.address.line3}</p>}
-                                        </>
-                                    )}
+                                    {company.address && <p>{company.address}</p>}
                                     {company.contacts && <p class="mt-1">{company.contacts}</p>}
                                 </div>
                             </div>
@@ -192,7 +186,7 @@ const formatDate = (input: string | number): string => {
                                             </p>
 
                                             <div
-                                                class={`duty-details mt-2 text-sm text-[#bfbfbf] leading-relaxed bg-[rgba(255,255,255,0.03)] border border-[rgba(0,188,212,0.15)] rounded-lg p-3 inline-block w-full box-border shadow-[inset_0_0_8px_rgba(0,188,212,0.05)] ${alignRight ? 'text-right' : 'text-left'}`}
+                                                class={`duty-details mt-2 text-sm text-[#bfbfbf] leading-relaxed bg-[rgba(255,255,255,0.03)] border border-[rgba(0,188,212,0.15)] rounded-lg p-3 inline-block w-full box-border shadow-[inset_0_0_8px_rgba(0,188,212,0.05)] text-justify`}
                                             >
                                                 {Array.isArray(duty.description) ? duty.description.map((line) => <p>{line}</p>) : duty.description}
                                             </div>
@@ -202,7 +196,7 @@ const formatDate = (input: string | number): string => {
                             )}
 
                             {/* Tag */}
-                            <div class="flex flex-wrap gap-2 mt-4">
+                            <div class={`flex flex-wrap gap-2 mt-4 ${alignRight ? 'justify-end' : 'justify-start'}`}>
                                 {tags.map((tag) => (
                                     <span class="tag-mini">{`#${tag}`}</span>
                                 ))}
