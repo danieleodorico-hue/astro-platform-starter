@@ -1,34 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Briefcase, Code, Cpu, GraduationCap, PenTool, Server, Workflow, BookOpen, Wrench } from 'lucide-astro';
+import { GraduationCap, BookOpen, PenTool, Wrench, Globe, Dice6 } from 'lucide-astro';
 
 // Mappa icone disponibili
-const iconMap = { Briefcase, Code, Cpu, GraduationCap, PenTool, Server, Workflow, BookOpen, Wrench };
+const iconMap = { GraduationCap, BookOpen, PenTool, Wrench, Globe, Dice6 };
 
-// Importa i file dalla cartella /jobs
-interface Job {
+// Importa i file dalla cartella /schools
+interface School {
     frontmatter: {
         title: string;
-        jobDuties: [
-            {
-                title: string;
-                description: string;
-            }
-        ];
-        company: {
-            description: string;
-            type: string;
-            website?: string;
-            address?: {
-                line1?: string;
-                line2?: string;
-                line3?: string;
-            };
-            contacts?: string;
-        };
-        dateFrom: string;
+        field?: string;
+        institute?: string;
+        location?: string;
+        date?: string;
+        dateFrom?: string;
         dateTo?: string | null;
         icon?: string;
+        description?: string | string[];
     };
 }
 
@@ -60,9 +48,14 @@ const normalizeDate = (d: string) => {
     return isNaN(parsed.getTime()) ? new Date(0) : parsed;
 };
 
-const jobs = (await Astro.glob<Job>('../pages/jobs/*.astro')).sort(
-    (a, b) => normalizeDate(b.frontmatter.dateFrom).getTime() - normalizeDate(a.frontmatter.dateFrom).getTime()
-);
+// const schools = (await Astro.glob<School>('../pages/schools/*.astro')).sort(
+//     (a, b) => normalizeDate(b.frontmatter.dateFrom).getTime() - normalizeDate(a.frontmatter.dateFrom).getTime()
+// );
+const schools = (await Astro.glob<School>('../pages/schools/*.astro')).sort((a, b) => {
+    const dateA = normalizeDate(a.frontmatter.date || a.frontmatter.dateFrom);
+    const dateB = normalizeDate(b.frontmatter.date || b.frontmatter.dateFrom);
+    return dateB.getTime() - dateA.getTime(); // dal più recente al più vecchio
+});
 
 const formatDate = (input: string | number): string => {
     if (!input) return '';
@@ -107,18 +100,79 @@ const formatDate = (input: string | number): string => {
 };
 ---
 
-<Layout title="Percorso lavorativo — Daniele Odorico">
+<Layout title="Percorso formativo — Daniele Odorico">
     <section class="timeline max-w-7xl mx-auto my-20 relative">
         <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-20 text-[#f2f2f2] text-center">Percorso formativo e competenze</h1>
 
         <!-- Linea centrale dietro le card -->
         <div class="timeline-line"></div>
 
+        <!-- CARD DI SINTESI (in cima) -->
+        <!-- CARD DI SINTESI (in cima) -->
+        <div class="timeline-item center">
+            <article class="card summary-card visible">
+                <div class="card-header center">
+                    <GraduationCap class="icon-symbol" />
+                    <h3 class="card-title">Competenze e Formazione</h3>
+                </div>
+
+                <p class="text-[#bfbfbf] text-sm leading-relaxed text-justify">
+                    In questa sezione ripercorro il mio percorso di studi, corsi professionali e certificazioni che hanno contribuito alla mia crescita come
+                    analista e programmatore full-stack.
+                    <br /><br />
+                    Le competenze tecniche descritte di seguito sono state acquisite e consolidate nelle diverse esperienze professionali. I dettagli completi dei
+                    progetti e dei ruoli ricoperti sono disponibili nella sezione
+                    <a href="/job" class="text-[#00bcd4] underline decoration-dotted hover:text-[#00eaff]">Esperienze Professionali</a>.
+                </p>
+
+                <div class="skills-summary mt-8 space-y-6 text-sm text-[#bfbfbf]">
+                    <!-- ENCO / STORE-PA -->
+                    <div class="skill-block">
+                        <p class="text-[#00bcd4] font-semibold mb-2">2000/2013 : EncoPro S.r.l. — Store-PA S.r.l.</p>
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="pink-tag">COBOL</span>
+                            <span class="pink-tag">Visual Basic</span>
+                            <span class="gray-tag">.NET</span>
+                            <span class="gray-tag">C#</span>
+                            <span class="pink-tag">Oracle</span>
+                            <span class="gray-tag">PHP</span>
+                            <span class="gray-tag">HTML</span>
+                            <span class="gray-tag">Photoshop</span>
+                        </div>
+                    </div>
+
+                    <!-- GPI (prima fase) -->
+                    <div class="skill-block">
+                        <p class="text-[#00bcd4] font-semibold mb-2">2014/2018 : GPI S.p.A. — Prima fase</p>
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="pink-tag">4js</span>
+                            <span class="pink-tag">Oracle</span>
+                            <span class="pink-tag">PL/SQL</span>
+                            <span class="pink-tag">Java</span>
+                        </div>
+                    </div>
+
+                    <!-- GPI (seconda fase) -->
+                    <div class="skill-block">
+                        <p class="text-[#00bcd4] font-semibold mb-2">2018/oggi : GPI S.p.A. — Seconda fase</p>
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="pink-tag">Java</span>
+                            <span class="pink-tag">Angular</span>
+                            <span class="pink-tag">TypeScript</span>
+                            <span class="pink-tag">HTML</span>
+                            <span class="pink-tag">JavaScript</span>
+                            <span class="pink-tag">Oracle</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
         {
-            jobs.map((job, index) => {
-                const { title, company, dateFrom, dateTo = [], icon, jobDuties = [] } = job.frontmatter;
+            schools.map((school, index) => {
+                const { title, institute, field, location, date, dateFrom, dateTo, description, icon } = school.frontmatter;
                 const alignRight = index % 2 === 0;
-                const IconComponent = iconMap[icon] || Briefcase;
+                const IconComponent = iconMap[icon] || GraduationCap;
 
                 return (
                     <div class={`timeline-item ${alignRight ? 'right' : 'left'}`}>
@@ -130,62 +184,22 @@ const formatDate = (input: string | number): string => {
                             </div>
 
                             {/* Date */}
-                            <p class="text-[#999] text-sm mb-4">
-                                {formatDate(dateFrom)} — {dateTo ? formatDate(dateTo) : 'oggi'}
-                            </p>
-
-                            {/* Azienda */}
-                            <div class="company-info">
-                                <p
-                                    class={`text-[#00bcd4] font-mono text-sm cursor-pointer underline decoration-dotted hover:text-[#00eaff] flex items-center gap-1 ${alignRight ? 'justify-end' : 'justify-start'}`}
-                                    data-toggle="company"
-                                >
-                                    {company.description}
-                                    <span class="arrow">▼</span>
+                            {date && <p class="text-[#999] text-sm mb-4">{formatDate(date)}</p>}
+                            {dateFrom && (
+                                <p class="text-[#999] text-sm mb-4">
+                                    {formatDate(dateFrom)} — {dateTo ? formatDate(dateTo) : 'oggi'}
                                 </p>
+                            )}
 
-                                <div class={`company-details collapsed mt-2 text-sm text-[#aaa] leading-relaxed ${alignRight ? 'text-right' : 'text-left'}`}>
-                                    {company.type && (
-                                        <p class="mt-1">
-                                            <strong>{company.type}</strong>
-                                        </p>
-                                    )}
-                                    {company.website && (
-                                        <p>
-                                            <a href={company.website} target="_blank" rel="noopener noreferrer" class="text-[#00bcd4] hover:underline">
-                                                {company.website}
-                                            </a>
-                                        </p>
-                                    )}
-                                    {company.address && <p>{company.address}</p>}
-                                    {company.contacts && <p class="mt-1">{company.contacts}</p>}
-                                </div>
-                            </div>
+                            {/* Scuola */}
+                            {institute && <p class="text-[#00bcd4] font-mono text-sm mb-1">{institute}</p>}
+                            {field && <p class="text-[#bfbfbf] text-sm mb-1 italic">{field}</p>}
+                            {location && <p class="text-[#999] text-xs mb-3">{location}</p>}
 
-                            {/* Mansioni */}
-                            {jobDuties.length > 0 && (
-                                <div class="duties-list mt-4">
-                                    {jobDuties.map((duty, idx) => (
-                                        <div class="duty-item mb-3">
-                                            <p
-                                                class={`text-[#00bcd4] font-mono text-sm cursor-pointer underline decoration-dotted hover:text-[#00eaff] flex items-center gap-1 ${alignRight ? 'justify-end' : 'justify-start'}`}
-                                                data-toggle={`duty-${index}-${idx}`}
-                                            >
-                                                {duty.title}
-                                                <span class="arrow">▲</span>
-                                            </p>
-
-                                            <div
-                                                class={`duty-details mt-2 text-sm text-[#bfbfbf] leading-relaxed bg-[rgba(255,255,255,0.03)] border border-[rgba(0,188,212,0.15)] rounded-lg p-3 inline-block w-full box-border shadow-[inset_0_0_8px_rgba(0,188,212,0.05)] text-justify`}
-                                            >
-                                                {Array.isArray(duty.description) ? (
-                                                    duty.description.map((line) => <p class="mb-1" set:html={line} />)
-                                                ) : (
-                                                    <p class="mb-1" set:html={duty.description} />
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
+                            {/* Descrizione */}
+                            {description && (
+                                <div class="text-[#bfbfbf] text-sm leading-relaxed text-justify">
+                                    {Array.isArray(description) ? description.map((p) => <p class="mb-1" set:html={p} />) : <p set:html={description} />}
                                 </div>
                             )}
                         </article>
@@ -440,6 +454,14 @@ const formatDate = (input: string | number): string => {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
             font-size: 0.8rem;
             color: #ff4fae;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+        :global(.gray-tag) {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #cccccc;
             background: rgba(255, 255, 255, 0.04);
             padding: 0.15rem 0.35rem;
             border-radius: 0.35rem;

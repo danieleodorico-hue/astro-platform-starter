@@ -4,8 +4,16 @@ const currentPath = Astro.url.pathname;
 const navItems = [
     { linkText: 'Home', href: '/' },
     { linkText: 'Chi sono', href: '/about' },
-    { linkText: 'Competenze', href: '/skills' },
-    { linkText: 'Esperienze Professionali', href: '/job' },
+    {
+        linkText: 'Formazione<br />e Competenze',
+        mobileText: 'Formazione',
+        href: '/school'
+    },
+    {
+        linkText: 'Esperienze<br />Professionali',
+        mobileText: 'Lavoro',
+        href: '/job'
+    },
     { linkText: 'Progetti', href: '/projects' },
     { linkText: 'Blog', href: '/blog' },
     { linkText: 'Contatti', href: '/contact' }
@@ -20,18 +28,26 @@ const navItems = [
         {
             navItems.map((item) => {
                 const isActive = currentPath === item.href;
+                const hasMobileText = !!item.mobileText;
+
                 return (
                     <li>
                         <a
                             href={item.href}
-                            class={`relative inline-block px-2 py-1 transition-all duration-300
-                ${isActive ? 'text-[#d16ba5]' : 'text-[#00bcd4] hover:text-[#d16ba5]'}
-                after:content-[''] after:absolute after:left-0 after:bottom-0 
-                after:h-[2px] after:bg-[#d16ba5]
-                ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
-                after:transition-all after:duration-300`}
+                            class={`relative inline-block px-2 py-1 transition-all duration-300 text-center leading-tight
+            ${isActive ? 'text-[#d16ba5]' : 'text-[#00bcd4] hover:text-[#d16ba5]'}
+            after:content-[''] after:absolute after:left-0 after:bottom-0 
+            after:h-[2px] after:bg-[#d16ba5]
+            ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
+            after:transition-all after:duration-300`}
                         >
-                            {item.linkText}
+                            <span class="hidden sm:inline" set:html={item.linkText} />
+
+                            {/* Versione desktop */}
+                            {hasMobileText && <span class="inline sm:hidden">{item.mobileText}</span>}
+
+                            {/* Versione mobile */}
+                            {!hasMobileText && <span class="inline sm:hidden" set:html={item.linkText} />}
                         </a>
                     </li>
                 );
@@ -44,5 +60,10 @@ const navItems = [
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
     .font-orbitron {
         font-family: 'Orbitron', sans-serif;
+    }
+
+    a {
+        word-break: keep-all;
+        line-height: 1.2;
     }
 </style>
