@@ -38,7 +38,6 @@ interface Job {
         };
         dateFrom: string;
         dateTo?: string | null;
-        tags?: string[];
         icon?: string;
     };
 }
@@ -127,17 +126,17 @@ const formatDate = (input: string | number): string => {
 
         {
             jobs.map((job, index) => {
-                const { title, company, dateFrom, dateTo, tags = [], icon, jobDuties = [] } = job.frontmatter;
+                const { title, company, dateFrom, dateTo = [], icon, jobDuties = [] } = job.frontmatter;
                 const alignRight = index % 2 === 0;
                 const IconComponent = iconMap[icon] || Briefcase;
                 return (
                     <div class={`timeline-item ${alignRight ? 'right' : 'left'}`}>
-                        <div class="icon-node">
-                            <IconComponent class="icon-symbol" />
-                        </div>
                         <article class="card fade-in">
-                            {/* Titolo principale */}
-                            <h3 class="card-title">{title}</h3>
+                            {/* Icona e Titolo */}
+                            <div class={`card-header ${alignRight ? 'right' : 'left'}`}>
+                                <IconComponent class="icon-symbol" />
+                                <h3 class="card-title">{title}</h3>
+                            </div>
 
                             {/* Date */}
                             <p class="text-[#999] text-sm mb-4">
@@ -194,13 +193,6 @@ const formatDate = (input: string | number): string => {
                                     ))}
                                 </div>
                             )}
-
-                            {/* Tag */}
-                            <div class={`flex flex-wrap gap-2 mt-4 ${alignRight ? 'justify-end' : 'justify-start'}`}>
-                                {tags.map((tag) => (
-                                    <span class="tag-mini">{`#${tag}`}</span>
-                                ))}
-                            </div>
                         </article>
                     </div>
                 );
@@ -251,6 +243,7 @@ const formatDate = (input: string | number): string => {
     </script>
 
     <style>
+        /* Timeline */
         .timeline {
             position: relative;
             padding-left: 1rem;
@@ -284,31 +277,24 @@ const formatDate = (input: string | number): string => {
             margin-bottom: 4rem;
             z-index: 1;
         }
-
         .timeline-item.left {
             margin-left: 0;
             text-align: left;
         }
-
         .timeline-item.right {
             margin-left: auto;
             text-align: right;
         }
-
-        /* Spostamento orizzontale più ampio */
         .timeline-item.left .icon-node {
-            right: -58px; /* prima era -42px */
+            right: -58px;
         }
-
         .timeline-item.right .icon-node {
-            left: -58px; /* prima era -42px */
+            left: -58px;
         }
 
         /* Nodo con icona */
         .icon-node {
-            position: absolute;
-            top: 1.5rem;
-            z-index: 1;
+            display: none;
         }
 
         /* Icona */
@@ -323,7 +309,6 @@ const formatDate = (input: string | number): string => {
                 transform 0.25s ease,
                 background-color 0.25s ease;
         }
-
         .icon-symbol:hover {
             transform: scale(1.1);
             background: rgba(255, 79, 174, 0.25);
@@ -344,35 +329,54 @@ const formatDate = (input: string | number): string => {
             opacity: 0;
             transform: translateY(20px);
         }
-
         .card.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         .card:hover {
             border-color: rgba(0, 188, 212, 0.5);
             transform: translateY(-2px);
         }
-
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .card-header.left {
+            justify-content: flex-start;
+        }
+        .card-header.right {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
         .card-title {
             color: #f2f2f2;
             font-weight: 700;
-            margin-bottom: 0.35rem;
+            font-size: 1.1rem;
+            margin: 0;
         }
-
         .card-body {
             color: #bfbfbf;
             line-height: 1.6;
         }
 
-        .tag-mini {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.8rem;
-            color: #00bcd4;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
+        /* Icona interna */
+        .icon-symbol {
+            width: 36px;
+            height: 36px;
+            color: #ff4fae;
+            background: rgba(255, 79, 174, 0.1);
+            border-radius: 50%;
+            padding: 6px;
+            flex-shrink: 0;
+            transition:
+                transform 0.25s ease,
+                background-color 0.25s ease;
+        }
+        .icon-symbol:hover {
+            transform: scale(1.1);
+            background: rgba(255, 79, 174, 0.25);
         }
 
         @media (max-width: 768px) {
@@ -390,6 +394,18 @@ const formatDate = (input: string | number): string => {
             }
         }
 
+        /* Nasconde l’icona su smartphone */
+        @media (max-width: 768px) {
+            .icon-symbol {
+                display: none;
+            }
+            .card-header {
+                justify-content: flex-start !important;
+                text-align: left !important;
+            }
+        }
+
+        /* Card di dettaglio Azienda e Mansioni */
         .company-details,
         .duty-details {
             transition: all 0.35s ease;
@@ -405,7 +421,6 @@ const formatDate = (input: string | number): string => {
             box-shadow: inset 0 0 8px rgba(0, 188, 212, 0.05);
             max-height: 500px;
         }
-
         .company-details.collapsed,
         .duty-details.collapsed {
             max-height: 0;
@@ -413,7 +428,6 @@ const formatDate = (input: string | number): string => {
             padding-top: 0;
             padding-bottom: 0;
         }
-
         .arrow {
             display: inline-block;
         }
