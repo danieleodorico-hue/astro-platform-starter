@@ -130,11 +130,11 @@ const formatDate = (input: string | number): string => {
                     <div class="skill-block">
                         <p class="text-[#00bcd4] font-semibold mb-2">2000/2013 : EncoPro S.r.l. — Store-PA S.r.l.</p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            <span class="pink-tag">COBOL</span>
-                            <span class="pink-tag">Visual Basic</span>
+                            <span class="gray-tag">COBOL</span>
+                            <span class="gray-tag">Visual Basic</span>
+                            <span class="gray-tag">Oracle</span>
                             <span class="gray-tag">.NET</span>
                             <span class="gray-tag">C#</span>
-                            <span class="pink-tag">Oracle</span>
                             <span class="gray-tag">PHP</span>
                             <span class="gray-tag">HTML</span>
                             <span class="gray-tag">Photoshop</span>
@@ -145,10 +145,10 @@ const formatDate = (input: string | number): string => {
                     <div class="skill-block">
                         <p class="text-[#00bcd4] font-semibold mb-2">2014/2018 : GPI S.p.A. — Prima fase</p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            <span class="pink-tag">4js</span>
-                            <span class="pink-tag">Oracle</span>
-                            <span class="pink-tag">PL/SQL</span>
-                            <span class="pink-tag">Java</span>
+                            <span class="gray-tag">4js</span>
+                            <span class="gray-tag">Oracle</span>
+                            <span class="gray-tag">PL/SQL</span>
+                            <span class="gray-tag">Java</span>
                         </div>
                     </div>
 
@@ -156,12 +156,12 @@ const formatDate = (input: string | number): string => {
                     <div class="skill-block">
                         <p class="text-[#00bcd4] font-semibold mb-2">2018/oggi : GPI S.p.A. — Seconda fase</p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            <span class="pink-tag">Java</span>
-                            <span class="pink-tag">Angular</span>
-                            <span class="pink-tag">TypeScript</span>
-                            <span class="pink-tag">HTML</span>
-                            <span class="pink-tag">JavaScript</span>
-                            <span class="pink-tag">Oracle</span>
+                            <span class="gray-tag">Java</span>
+                            <span class="gray-tag">Angular</span>
+                            <span class="gray-tag">TypeScript</span>
+                            <span class="gray-tag">HTML</span>
+                            <span class="gray-tag">JavaScript</span>
+                            <span class="gray-tag">Oracle</span>
                         </div>
                     </div>
                 </div>
@@ -193,8 +193,13 @@ const formatDate = (input: string | number): string => {
 
                             {/* Scuola */}
                             {institute && <p class="text-[#00bcd4] font-mono text-sm mb-1">{institute}</p>}
-                            {field && <p class="text-[#bfbfbf] text-sm mb-1 italic">{field}</p>}
                             {location && <p class="text-[#999] text-xs mb-3">{location}</p>}
+
+                            {field && (
+                                <p class="text-[#bfbfbf] text-sm mb-1">
+                                    <b>{field}</b>
+                                </p>
+                            )}
 
                             {/* Descrizione */}
                             {description && (
