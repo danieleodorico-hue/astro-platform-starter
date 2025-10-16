@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Studiare giapponese: un allenamento per la mente e per l’anima',
+    date: '2025-10-10',
+    description:
+        'Due anni fa ho iniziato a studiare giapponese con un obiettivo preciso: mantenere la mente in allenamento. Oggi lo studio è diventato parte della mia routine quotidiana, un esercizio di costanza e curiosità verso una cultura che ho sempre amato.',
+    tags: ['giapponese', 'studio', 'benessere', 'lingue'],
+    icon: 'BookOpen' // https://lucide.dev/icons/
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-5xl mx-auto">
+        <!-- Titolo e data -->
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img
+                    src="/images/blog/20251010-studiare-giapponese.png"
+                    alt="Studiare giapponese come allenamento mentale e personale"
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                />
+            </div>
+
+            <!-- Testo -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>
+                    Mi sono imbattuto in un breve articolo di
+                    <a href="https://share.google/SLfxdz4QKYhU1VFrn" target="_blank" rel="noopener noreferrer" class="link-inline">Wired</a>
+                    dedicato al tema dell’allenamento mentale e ai benefici dello studio continuo. Leggendolo, mi è tornato alla mente il periodo in cui anch’io,
+                    proprio per questi motivi, ho deciso di iniziare a studiare giapponese.
+                </p>
+
+                <p>
+                    Non è stata una scelta casuale: ho pianificato con cura questa abitudine, leggendo diversi studi che indicavano come l’apprendimento di una
+                    lingua straniera possa contribuire a mantenere la mente giovane e flessibile. E siccome ho sempre amato il Giappone e la sua cultura, la
+                    scelta è venuta naturale.
+                </p>
+
+                <p>
+                    Da ormai due anni dedico circa un’ora al giorno, tutti i giorni, allo studio del giapponese. È diventato parte della mia routine: un momento
+                    personale, silenzioso, che allena la memoria, la concentrazione e la pazienza. Ogni nuova parola o kanji è una piccola conquista che
+                    richiede metodo e costanza, ma che restituisce una profonda sensazione di progresso.
+                </p>
+
+                <p>
+                    Credo che prendersi cura di sé significhi anche questo: pianificare il tempo da dedicare alla crescita personale. L’attività mentale va
+                    nutrita con la stessa disciplina con cui ci si prende cura del corpo. Studiare una lingua come il giapponese, con la sua logica rigorosa e
+                    la sua estetica affascinante, è per me un modo concreto per mantenere viva la curiosità e rallentare l’invecchiamento cognitivo.
+                </p>
+
+                <p>
+                    Oggi lo studio non è più solo un esercizio: è diventato una forma di equilibrio. Una sfida gentile, che ogni giorno mi ricorda quanto la
+                    perseveranza e la pianificazione possano trasformare anche un semplice hobby in qualcosa di profondo e duraturo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+        }
+    </style>
+</Layout>
