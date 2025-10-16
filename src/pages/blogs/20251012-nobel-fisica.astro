@@ -1,0 +1,128 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const frontmatter = {
+    title: 'Nobel per la fisica 2025',
+    date: '2025-10-12',
+    description:
+        'Il Nobel per la Fisica 2025 mi ha riportato alla mente perché resto affascinato dalle materie “astro-qualcosa”: l’universo, le leggi che lo regolano e chi riesce a spiegarle con semplicità. Un piccolo pensiero sul valore della divulgazione scientifica.',
+    tags: ['Fisica', 'Astronomia', 'Scienza', 'Divulgazione'],
+    icon: 'Globe' // https://lucide.dev/icons/
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-5xl mx-auto">
+        <!-- Titolo e data -->
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-10">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img
+                    src="/images/blog/20251012-nobel-fisica.png"
+                    alt="Premio Nobel per la Fisica 2025 e rappresentazione concettuale dell’universo"
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                />
+            </div>
+
+            <!-- Testo affiancato all'immagine -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>
+                    Mi sono imbattuto in un articolo di
+                    <a href="https://share.google/FKhRABnZTivnKqqtx" target="_blank" rel="noopener noreferrer" class="link-inline">
+                        RSI – Radiotelevisione Svizzera
+                    </a>
+                    che racconta il <label class="blue-tag">Nobel</label> per la Fisica 2025 e le sue implicazioni nel campo dell’astrofisica. Leggendolo, mi è tornato
+                    alla mente quanto continuino ad affascinarmi le materie “astro-qualcosa”: astronomia, astrofisica, cosmologia. Tutto ciò che prova a spiegare
+                    la vastità dell’universo.
+                </p>
+
+                <p>
+                    Pur non avendo una laurea in fisica o astronomia, sono un programmatore e ho sempre avuto una solida base scientifica: matematica, logica e
+                    metodo sono strumenti che utilizzo ogni giorno nel mio lavoro. Forse è anche per questo che mi piacciono i divulgatori che sanno coniugare
+                    chiarezza e precisione, rendendo accessibili concetti complessi senza snaturarli.
+                    <br />
+                    Penso a
+                    <a href="https://www.youtube.com/@AmedeoBalbi" target="_blank" rel="noopener noreferrer" class="link-inline">Amedeo Balbi</a>,
+                    <a href="https://www.youtube.com/@astrowikiperri" target="_blank" rel="noopener noreferrer" class="link-inline">Luca Perri</a>,
+                    <a href="https://www.youtube.com/@PepitediScienza/videos" target="_blank" rel="noopener noreferrer" class="link-inline">
+                        Simone Baroni (Pepite di Scienza)
+                    </a>
+                    o ai video dell’
+                    <a href="https://www.youtube.com/@inaftv" target="_blank" rel="noopener noreferrer" class="link-inline">INAF</a>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Testo a piena larghezza dopo l'immagine -->
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>
+                Forse è questo che mi affascina di più: la scienza, quando è comunicata bene, restituisce il senso autentico della curiosità umana. Ogni
+                scoperta, ogni modello teorico o esperimento premiato con un Nobel, è un passo avanti non solo nella comprensione del cosmo, ma anche nella
+                costruzione di tecnologie applicabili alla nostra vita quotidiana.
+                <br />
+                Dalla fisica dei <label class="blue-tag">semiconduttori</label>, che ha reso possibile l’informatica moderna, agli studi sull’
+                <label class="blue-tag">antimateria</label> oggi impiegati nella diagnostica medica (come le PET), fino ai
+                <label class="blue-tag">computer quantistici</label> che promettono di rivoluzionare la capacità di calcolo nel prossimo futuro.
+            </p>
+
+            <p>
+                Questi risultati dimostrano che la ricerca fondamentale non è un lusso astratto, ma una delle radici più concrete del progresso. Studiare
+                l’universo significa imparare a leggere la realtà con occhi più ampi: capire come funziona ciò che ci circonda è, in fondo, la forma più pura e
+                duratura di conoscenza.
+            </p>
+        </div>
+    </section>
+
+    <style>
+        .link-inline {
+            color: #d16ba5;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+        .link-inline:hover {
+            color: #00bcd4;
+            border-bottom-color: rgba(0, 188, 212, 0.7);
+        }
+
+        :global(.blue-tag) {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #00bcd4;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+        :global(.pink-tag) {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #ff4fae;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+        :global(.gray-tag) {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.8rem;
+            color: #cccccc;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.35rem;
+        }
+    </style>
+</Layout>
