@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+import '../../styles/blog.scss';
+
 export const frontmatter = {
     title: 'Nobel per la fisica 2025',
     date: '2025-10-12',
@@ -86,43 +88,5 @@ export const frontmatter = {
         </div>
     </section>
 
-    <style>
-        .link-inline {
-            color: #d16ba5;
-            text-decoration: none;
-            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
-            transition:
-                color 0.2s ease,
-                border-color 0.2s ease;
-        }
-        .link-inline:hover {
-            color: #00bcd4;
-            border-bottom-color: rgba(0, 188, 212, 0.7);
-        }
-
-        :global(.blue-tag) {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.8rem;
-            color: #00bcd4;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
-        }
-        :global(.pink-tag) {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.8rem;
-            color: #ff4fae;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
-        }
-        :global(.gray-tag) {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.8rem;
-            color: #cccccc;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
-        }
-    </style>
+    <style></style>
 </Layout>

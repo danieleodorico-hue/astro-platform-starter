@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+import '../../styles/blog.scss';
+
 export const frontmatter = {
     title: 'OKC campioni NBA 2025',
     date: '2025-06-23',
@@ -30,7 +32,7 @@ export const frontmatter = {
                 po’, ho sempre preferito essere io quello che gioca.
             </p>
 
-            <p class="text-center text-[#d16ba5] italic">E giocare mi è sempre piaciuto da morire!</p>
+            <p class="inciso">E giocare mi è sempre piaciuto da morire!</p>
 
             <p>
                 Però la finale NBA è un’eccezione. Ogni anno, in un modo o nell’altro, finisco per ritagliarmi un po’ di tempo per guardare almeno gli
@@ -65,31 +67,5 @@ export const frontmatter = {
         </div>
     </section>
 
-    <style>
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        :global(.blue-tag) {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.8rem;
-            color: #00bcd4;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.15rem 0.35rem;
-            border-radius: 0.35rem;
-        }
-    </style>
+    <style></style>
 </Layout>

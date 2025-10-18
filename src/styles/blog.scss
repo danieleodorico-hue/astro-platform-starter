@@ -1,0 +1,159 @@
+/* ======================================================================================================
+   VIDEO EMBED (es. YouTube, Vimeo)
+====================================================================================================== */
+.video-wrapper {
+    // Necessario per il posizionamento assoluto dell’iframe interno
+    position: relative;
+
+    // Mantiene il formato 16:9 (altezza proporzionale alla larghezza)
+    padding-bottom: 56.25%;
+
+    // L’altezza viene gestita dal padding per il layout responsive
+    height: 0;
+
+    // Nasconde eventuali bordi o elementi fuori area
+    overflow: hidden;
+
+    // Arrotonda i bordi del contenitore video
+    border-radius: 12px;
+
+    // Effetto alone azzurro soft attorno al video
+    box-shadow: 0 0 18px rgba(0, 188, 212, 0.18);
+}
+
+.video-wrapper iframe {
+    // Posiziona il video dentro al wrapper in modo indipendente dal flusso del documento
+    position: absolute;
+
+    //
+    top: 0;
+    left: 0;
+
+    // Rende il video pienamente responsivo in larghezza
+    width: 100%;
+
+    // Adatta l’altezza al rapporto impostato nel wrapper
+    height: 100%;
+
+    // Rimuove il bordo predefinito dell’iframe
+    border: none;
+}
+
+/* ======================================================================================================
+   LINK INLINE (a siti o fonti esterne)
+====================================================================================================== */
+.link-inline {
+    // Colore base (rosa) coerente con il tema cyberpunk
+    color: #d16ba5;
+
+    // Rimuove la sottolineatura standard dei link
+    text-decoration: none;
+
+    // Sostituisce la sottolineatura con un tratteggio discreto
+    border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
+
+    // Anima il cambio colore per un effetto fluido al passaggio del mouse
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.link-inline:hover {
+    // Passaggio al colore azzurro in hover
+    color: #00bcd4;
+
+    // Bordo coerente con il cambio colore del testo
+    border-bottom-color: rgba(0, 188, 212, 0.7);
+}
+
+/* ======================================================================================================
+    TAG COLORATI (simbolo tipo hashtag)
+   ------------------------------------------------------------------------------------------------------
+    Utilizzo:
+        - evidenziare parole chiave “neutre” o categorie concettuali,
+        - indicare tecnologie, termini tecnici, progetti, titoli di opere, concetti ricorrenti,
+        - riferimenti visivo a un hashtag o a un concetto chiuso.
+    Esempi:
+        <label class="blue-tag">JavaScript</label>
+        <label class="blue-tag">AI</label>
+        <label class="blue-tag">Oklahoma City Thunder</label>
+        <label class="blue-tag">Nobel</label>
+    → visivamente sono “etichette” o “argomenti”, non emozioni.
+    → semanticamente sostituiscono il grassetto tecnico (<code> o <mark>).
+====================================================================================================== */
+.blue-tag {
+    // Font a spaziatura fissa
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    // Leggermente più piccolo del testo normale per non rubare l’attenzione
+    font-size: 0.8rem;
+
+    // Azzurro principale del tema
+    color: #00bcd4;
+
+    // Leggera trasparenza per distinguere il tag dallo sfondo
+    background: rgba(255, 255, 255, 0.04);
+
+    // Spaziatura interna bilanciata per effetto "etichetta"
+    padding: 0.15rem 0.35rem;
+
+    // Angoli arrotondati per un aspetto più morbido
+    border-radius: 0.35rem;
+}
+
+/* ======================================================================================================
+   TESTO EVIDENZIATO
+   ------------------------------------------------------------------------------------------------------
+    <strong> — per enfasi concettuale o argomentativa
+    Utilizzo:
+        - dare rilievo a una parola o frase chiave all’interno del discorso,
+        - sottolineare un’idea importante, una valutazione personale o una conclusione,
+        - rompere il ritmo visivo nel testo lungo.
+    Esempi:
+        - <strong>È un passo importante</strong> verso una vera adozione dell’IA.
+        - Il rischio più grande è <strong>spendere tanto ma senza una visione comune</strong>.
+
+    → più “narrativo”, serve a guidare la lettura.
+    → usa il rosa del tema per segnare l’idea o la posizione dell’autore.
+   ------------------------------------------------------------------------------------------------------
+    <em> — per tono riflessivo, emotivo o personale
+    Utilizzo:
+        - dare sfumatura o voce interiore,
+        - esprimere ironia, emozione, incertezza o partecipazione,
+        - creare un piccolo respiro nel testo (come negli incisi).
+    Esempi:
+        - <em>In fondo, è questo che mi affascina davvero.</em>
+        - <em>Ed è impossibile non restarne colpiti.</em>
+
+    → usare meno spesso, serve a umanizzare i passaggi più personali.
+    → l’azzurro qui ha un valore “calmo”, introspettivo.
+====================================================================================================== */
+p strong {
+    // Colore rosa per evidenziare parole chiave o concetti importanti
+    color: #d16ba5;
+}
+
+em {
+    // Colore azzurro per enfasi o tono riflessivo
+    color: #00bcd4;
+}
+
+/* ======================================================================================================
+   INCISO CENTRALE (frasi brevi a effetto o personali)
+====================================================================================================== */
+.inciso {
+    // Centra il testo orizzontalmente
+    text-align: center;
+
+    // Rosa principale del tema, evidenzia l'emotività o l'enfasi
+    color: #d16ba5;
+
+    // Tono personale, enfatizzato ma non gridato
+    font-style: italic;
+
+    // Spazio verticale per separarlo visivamente dal resto del testo
+    margin: 1.5rem 0;
+
+    // Leggera maggiore leggibilità rispetto al corpo normale
+    line-height: 1.6;
+}
