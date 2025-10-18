@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+import '../../styles/blog.scss';
+
 export const frontmatter = {
     title: 'JUPITER: il supercomputer europeo',
     date: '2025-08-20',
@@ -14,9 +16,8 @@ export const frontmatter = {
 
 <Layout title={frontmatter.title}>
     <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
-        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">
-            {frontmatter.title}
-        </h1>
+        <!-- Titolo e data -->
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
         <p class="text-sm text-[#999] mb-8">
             {
                 new Date(frontmatter.date).toLocaleDateString('it-IT', {
@@ -27,48 +28,55 @@ export const frontmatter = {
             }
         </p>
 
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-2">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img
+                    src="/images/blog/20250820-jupiter-supercomputer.png"
+                    alt="Illustrazione futuristica in stile cyberpunk del supercomputer europeo JUPITER, simbolo dell’avanzamento tecnologico in Europa. L’immagine mostra il computer illuminato di blu e viola, con schermi che visualizzano dati scientifici e medici, a rappresentare il suo impiego nella ricerca, nella medicina e nell’intelligenza artificiale."
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                />
+            </div>
+
+            <!-- Testo affiancato all'immagine -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>
+                    Non capita spesso di poter dire che “<i>l’Europa segna un punto storico nella tecnologia</i>”.
+                </p>
+
+                <p>
+                    Con l’attivazione di
+                    <label class="blue-tag">JUPITER</label>
+                    in Germania, il nostro continente entra ufficialmente nell’era dei <strong>supercomputer exascale</strong>: macchine capaci di superare il
+                    miliardo di miliardi di operazioni al secondo.
+                </p>
+
+                <p>
+                    In pratica, significa poter simulare fenomeni complessi in un modo che finora era semplicemente impossibile: dal clima globale alle reazioni
+                    molecolari, dai nuovi materiali alla ricerca medica. Sono strumenti che permettono di elaborare <strong>enormi</strong> quantità di dati con
+                    una precisione che può cambiare il modo in cui facciamo scienza, sviluppiamo farmaci o addestriamo modelli di intelligenza artificiale.
+                </p>
+
+                <p>
+                    JUPITER usa un’architettura ibrida con chip NVIDIA GH200 e processori europei di nuova generazione — qualunque cosa significhi esattamente.
+                    So solo che è una quantità di potenza di calcolo difficilmente immaginabile, alimentata da energia rinnovabile e ospitata presso il centro
+                    di ricerca <label class="blue-tag">Jülich</label>, in Germania.
+                </p>
+
+                <p>
+                    Da sviluppatore, <em>fa piacere</em> vedere l’Europa investire in qualcosa di così ambizioso. È un segnale che, forse, stiamo iniziando a credere
+                    di più nelle nostre capacità tecnologiche.
+                </p>
+            </div>
+        </div>
+
+        <!-- Testo a piena larghezza dopo l'immagine -->
         <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
-            <p>
-                Non capita spesso di poter dire che *l’Europa segna un punto storico nella tecnologia*. Con l’attivazione di <strong class="text-[#f2f2f2]"
-                    >JUPITER</strong
-                > in Germania, il nostro continente entra ufficialmente nell’era dei
-                <strong class="text-[#00bcd4]">supercomputer exascale</strong>, macchine capaci di superare il miliardo di miliardi di operazioni al secondo.
-            </p>
-
-            <p>
-                È una di quelle notizie che forse passano inosservate al grande pubblico, ma che dietro le quinte cambiano tutto: dalla ricerca sul clima, alla
-                medicina personalizzata, fino all’addestramento dei modelli di intelligenza artificiale.
-            </p>
-
-            <p>
-                JUPITER usa un’architettura ibrida, con chip <strong>GPU NVIDIA GH200</strong> e processori europei di nuova generazione, il tutto alimentato da
-                energia rinnovabile. È ospitato presso il centro di ricerca <strong>Jülich</strong> in Germania.
-            </p>
-
-            <p>
-                Da italiano e da sviluppatore, fa piacere vedere l’Europa investire in qualcosa di così ambizioso. È un segnale che – forse – stiamo iniziando a
-                credere di più nelle nostre capacità tecnologiche.
-            </p>
+            <!-- VUOTO -->
         </div>
     </section>
 
-    <style>
-        strong {
-            font-weight: 600;
-        }
-
-        .link-inline {
-            color: #d16ba5;
-            text-decoration: none;
-            border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
-            transition:
-                color 0.2s ease,
-                border-color 0.2s ease;
-        }
-
-        .link-inline:hover {
-            color: #00bcd4;
-            border-bottom-color: rgba(0, 188, 212, 0.7);
-        }
-    </style>
+    <style></style>
 </Layout>
