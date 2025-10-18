@@ -142,18 +142,39 @@ em {
    INCISO CENTRALE (frasi brevi a effetto o personali)
 ====================================================================================================== */
 .inciso {
-    // Centra il testo orizzontalmente
-    text-align: center;
+    // Il blocco si adatta alla larghezza effettiva del testo
+    display: inline-block;
 
-    // Rosa principale del tema, evidenzia l'emotività o l'enfasi
-    color: #d16ba5;
+    // Testo marcato, per sostenere il colore intenso
+    font-weight: 700;
 
-    // Tono personale, enfatizzato ma non gridato
+    // Mantiene il tono personale o riflessivo
     font-style: italic;
 
-    // Spazio verticale per separarlo visivamente dal resto del testo
-    margin: 1.5rem 0;
+    // Spazio verticale per far “respirare” il testo
+    padding: 0.6rem 0;
 
-    // Leggera maggiore leggibilità rispetto al corpo normale
+    // Aumenta la spaziatura per rendere più leggibile il gradient
+    letter-spacing: 1px;
+
+    // Altezza riga leggermente aumentata per equilibrio visivo
     line-height: 1.6;
+
+    // Gradient pieno, saturo e simmetrico — nessuna trasparenza o effetto glow
+    background: linear-gradient(90deg,
+            #00e5ff 0%,
+            #00e5ff 15%,
+            #ff2aad 40%,
+            #ff2aad 60%,
+            #00e5ff 85%,
+            #00e5ff 100%);
+
+    // Applica il gradient solo al testo (non al background)
+    -webkit-background-clip: text;
+
+    // Rende il testo trasparente per mostrare il gradient
+    -webkit-text-fill-color: transparent;
+
+    // Compatibilità per altri browser
+    background-clip: text;
 }

@@ -28,7 +28,7 @@ export const frontmatter = {
         </p>
 
         <!-- Contenitore immagine + testo -->
-        <div class="flex flex-col md:flex-row items-start gap-8 mb-10">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-2">
             <!-- Immagine -->
             <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
                 <img src="/images/blog/20250722-europa-apply-ai.png" alt="{frontmatter.description}" class="w-full h-auto object-cover" loading="lazy" />
@@ -37,36 +37,37 @@ export const frontmatter = {
             <!-- Testo affiancato all'immagine -->
             <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
                 <p>
-                    Con il nuovo piano
-                    <strong>“EU Apply AI”</strong>, la Commissione Europea ha annunciato a luglio un investimento di
-                    <strong>1,1 miliardi di euro</strong> per portare l’intelligenza artificiale fuori dai laboratori e dentro la vita quotidiana: sanità, pubblica
-                    amministrazione, trasporti e piccole imprese.
+                    Con il nuovo piano <label class="blue-tag">EU Apply AI</label>, la Commissione Europea ha annunciato a luglio un importante investimento di
+                    <strong>1,1 miliardi di euro</strong>. Una cifra davvero da capogiro.
                 </p>
 
                 <p>
-                    È un passo che arriva a pochi mesi di distanza dall’iniziativa delle cosiddette <strong>"AI Gigafactories"</strong>, lanciata in primavera
-                    per creare grandi centri di calcolo dedicati all’addestramento dei modelli. Quella era una mossa "di infrastruttura". Questa invece è una
-                    mossa "di applicazione".
+                    L’obiettivo è chiaro: portare l’<strong>intelligenza artificiale</strong> fuori dai laboratori e dentro la vita quotidiana. Sanità, pubblica
+                    amministrazione, trasporti, piccole imprese: la sfida è renderla finalmente utile, non solo innovativa.
+                </p>
+
+                <p>
+                    È un passo che arriva a pochi mesi di distanza dall’iniziativa delle cosiddette <label class="blue-tag">AI Gigafactories</label>, lanciata
+                    in primavera per creare grandi centri di calcolo dedicati all’addestramento dei modelli. Quella era una mossa "di infrastruttura". Questa
+                    invece è una mossa "di applicazione".
                 </p>
 
                 <p>
                     Insieme, le due strategie mostrano un’Europa che, almeno sulla carta, sta cercando di recuperare terreno su Stati Uniti e Cina, non solo
-                    potenziando la potenza di calcolo, ma anche incentivando chi vuole usare l’IA in modo concreto. Il piano destina fondi a ospedali, comuni e
-                    startup, ma anche alla <em>formazione dei lavoratori</em>, che rimane la vera sfida di fondo.
-                </p>
-
-                <p>
-                    Personalmente, trovo incoraggiante vedere finalmente un movimento coordinato, anche se il rischio è sempre lo stesso: spendere molto, ma in
-                    modo dispersivo. Quello che preoccupa di più è la direzione culturale: troppe persone usano l’intelligenza artificiale per
-                    <strong>farsi sostituire</strong>, invece che per <strong>potenziarsi</strong>. Se l’IA diventa un alibi per smettere di pensare, non sarà
-                    mai un progresso vero.
+                    potenziando la potenza di calcolo, ma anche incentivando chi vuole usare l’IA in modo <strong>concreto</strong>. Il piano destina fondi a
+                    ospedali, comuni e startup, ma anche alla <strong>formazione</strong> dei lavoratori, che rimane la vera sfida di fondo.
                 </p>
             </div>
         </div>
 
         <!-- Testo a piena larghezza dopo l'immagine -->
         <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
-            <!-- Vuoto -->
+            <p>
+                Personalmente, trovo incoraggiante vedere finalmente un movimento coordinato, anche se il rischio è sempre lo stesso: spendere molto, ma in modo
+                dispersivo. Quello che preoccupa di più è la direzione culturale:
+                <em>troppe persone usano l’intelligenza artificiale per farsi sostituire, invece che per potenziarsi.</em>
+                Se l’IA diventa un alibi per smettere di pensare, non sarà mai un progresso vero.
+            </p>
         </div>
     </section>
 </Layout>
