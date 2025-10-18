@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+import '../../styles/blog.scss';
+
 export const frontmatter = {
     title: 'Caldo, fiamme e la solita memoria corta',
     date: '2025-08-10',
@@ -13,6 +15,7 @@ export const frontmatter = {
 
 <Layout title={frontmatter.title}>
     <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <!-- Titolo e data -->
         <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
         <p class="text-sm text-[#999] mb-8">
             {
@@ -24,32 +27,45 @@ export const frontmatter = {
             }
         </p>
 
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-2">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img src="/images/blog/20250810-estate-caldo-incendi.png" alt="{frontmatter.description}" class="w-full h-auto object-cover" loading="lazy" />
+            </div>
+
+            <!-- Testo affiancato all'immagine -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>
+                    L’estate 2025 sarà ricordata come una delle più calde e distruttive degli ultimi decenni. Temperature oltre i <strong>45 gradi</strong> in Italia
+                    meridionale e Spagna, incendi diffusi in Grecia, Croazia e Sicilia, mari che sembrano caldaie più che ecosistemi. È un copione che conosciamo
+                    bene, e che ogni anno sembra riscriversi con una sola differenza...
+                </p>
+
+                <div style="text-align: center;">
+                    <p class="inciso"><em>Peggiora!</em></p>
+                </div>
+
+                <p>
+                    Le immagini di intere colline in fiamme, i villaggi evacuati, le persone stremate dal caldo sono ormai parte del nostro paesaggio mentale.
+                    Si parla di <strong>emergenza climatica</strong>, ma la parola "emergenza" ha perso senso: non si può vivere in emergenza permanente. È
+                    diventata la nostra normalità, e forse è questo il punto più inquietante.
+                </p>
+
+                <p>
+                    Il vero problema che sta alla base di tutto non è il caldo. Né gli incendi. È l’abitudine. Ci si abitua a tutto, anche alla catastrofe, se
+                    avviene abbastanza lentamente. Ed è lì che l’essere umano si rivela davvero per quello che è: <em>l’incendiario di casa propria</em>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Testo a piena larghezza dopo l'immagine -->
         <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
             <p>
-                L'estate 2025 sarà ricordata come una delle più calde e distruttive degli ultimi decenni. Temperature oltre i <strong>45 gradi</strong> in Italia
-                meridionale e Spagna, incendi diffusi in Grecia, Croazia e Sicilia, mari che sembrano caldaie più che ecosistemi. È un copione che conosciamo bene,
-                e che ogni anno sembra riscriversi con una sola differenza: peggiora.
-            </p>
-
-            <p>
-                Le immagini di intere colline in fiamme, i villaggi evacuati, le persone stremate dal caldo sono ormai parte del nostro paesaggio mentale. Si
-                parla di <strong>emergenza climatica</strong>, ma la parola "emergenza" ha perso senso: non si può vivere in emergenza permanente. È diventata
-                la nostra normalità, e forse è questo il punto più inquietante.
-            </p>
-
-            <p>
-                Il problema non è il caldo, né gli incendi. È l'abitudine. Ci si abitua a tutto, anche alla catastrofe, se avviene abbastanza lentamente. Ed è
-                lì che l'essere umano si rivela davvero per quello che è: <em>l'incendiario di casa propria</em>.
+                <!-- VUOTO -->
             </p>
         </div>
     </section>
-
-    <style>
-        p strong {
-            color: #d16ba5;
-        }
-        em {
-            color: #00bcd4;
-        }
-    </style>
 </Layout>
+
+<style></style>

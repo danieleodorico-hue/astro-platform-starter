@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+import '../../styles/blog.scss';
+
+export const frontmatter = {
+    title: 'TITLE',
+    date: 'YYYY-MM-DD',
+    description: 'DESCRIPTION',
+    tags: ['tag1', 'tag2', 'tag3'],
+    category: 'category',
+    icon: 'Icon'
+};
+---
+
+<Layout title={frontmatter.title}>
+    <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <!-- Titolo e data -->
+        <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
+        <p class="text-sm text-[#999] mb-8">
+            {
+                new Date(frontmatter.date).toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        </p>
+
+        <!-- Contenitore immagine + testo -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-2">
+            <!-- Immagine -->
+            <div class="md:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-[#222] flex-shrink-0">
+                <img src="/images/blog/YYYYMMDD-titolo.png" alt="{frontmatter.description}" class="w-full h-auto object-cover" loading="lazy" />
+            </div>
+
+            <!-- Testo affiancato all'immagine -->
+            <div class="md:w-1/2 w-full text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+                <p>Paragrafo 1.</p>
+
+                <p>Paragrafo 2.</p>
+
+                <p>Paragrafo 3.</p>
+            </div>
+        </div>
+
+        <!-- Testo a piena larghezza dopo l'immagine -->
+        <div class="text-[#b8b8b8] leading-relaxed text-justify space-y-5">
+            <p>Paragrafo 4.</p>
+        </div>
+    </section>
+</Layout>
+
+<style></style>
