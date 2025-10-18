@@ -15,7 +15,18 @@ const navItems = [
         href: '/job'
     },
     { linkText: 'Progetti', href: '/projects' },
-    { linkText: 'Blog', href: '/blog' },
+    {
+        linkText: 'Blog',
+        href: '/blog',
+        subItems: [
+            { text: 'Tutto', href: '/blog' },
+            { text: 'Scienza e tecnologia', href: '/blog/tecnologia' },
+            { text: 'Attualità e news', href: '/blog/attualita' },
+            { text: 'Salute', href: '/blog/salute' },
+            { text: 'Sport', href: '/blog/sport' },
+            { text: 'Hobby e tempo libero', href: '/blog/hobby' }
+        ]
+    },
     { linkText: 'Contatti', href: '/contact' }
 ];
 ---
@@ -29,26 +40,38 @@ const navItems = [
             navItems.map((item) => {
                 const isActive = currentPath === item.href;
                 const hasMobileText = !!item.mobileText;
+                const hasSubMenu = Array.isArray(item.subItems);
 
                 return (
-                    <li>
+                    <li class="relative group">
                         <a
                             href={item.href}
                             class={`relative inline-block px-2 py-1 transition-all duration-300 text-center leading-tight
-            ${isActive ? 'text-[#d16ba5]' : 'text-[#00bcd4] hover:text-[#d16ba5]'}
-            after:content-[''] after:absolute after:left-0 after:bottom-0 
-            after:h-[2px] after:bg-[#d16ba5]
-            ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
-            after:transition-all after:duration-300`}
+                                ${isActive ? 'text-[#d16ba5]' : 'text-[#00bcd4] hover:text-[#d16ba5]'}
+                                after:content-[''] after:absolute after:left-0 after:bottom-0 
+                                after:h-[2px] after:bg-[#d16ba5]
+                                ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
+                                after:transition-all after:duration-300`}
                         >
                             <span class="hidden sm:inline" set:html={item.linkText} />
-
-                            {/* Versione desktop */}
                             {hasMobileText && <span class="inline sm:hidden">{item.mobileText}</span>}
-
-                            {/* Versione mobile */}
                             {!hasMobileText && <span class="inline sm:hidden" set:html={item.linkText} />}
                         </a>
+
+                        {hasSubMenu && (
+                            <ul class="absolute hidden group-hover:flex flex-col bg-[#0a0a0a]/95 rounded-lg mt-2 border border-[#1c1c1c] min-w-[16rem] whitespace-nowrap shadow-lg z-50 text-left">
+                                {item.subItems.map((sub) => (
+                                    <li>
+                                        <a
+                                            href={sub.href}
+                                            class="block px-4 py-2 text-[#00bcd4] hover:text-[#d16ba5] hover:bg-[#111] text-sm transition-colors duration-200"
+                                        >
+                                            {sub.text}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </li>
                 );
             })
@@ -65,5 +88,10 @@ const navItems = [
     a {
         word-break: keep-all;
         line-height: 1.2;
+    }
+
+    /* dropdown fix: mantieni visibile quando il mouse passa sopra */
+    li.group:hover ul {
+        display: flex;
     }
 </style>

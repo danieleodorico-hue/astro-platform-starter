@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { PenTool, Globe, Trophy, Volleyball, BookOpen, Code, FileText, Rocket, Cpu, Newspaper, Dice6 } from 'lucide-astro';
 
 const iconMap = { PenTool, Globe, Trophy, Volleyball, BookOpen, Code, Rocket, Cpu, Newspaper, FileText, Dice6 };
@@ -16,29 +16,32 @@ interface BlogPost {
     url: string;
 }
 
-// Ottieni la categoria dal percorso (es. /blog/sport)
-const categoryParam = Astro.url.pathname.split('/').pop();
+// Imposta categoria fissa
+const categoryParam = 'attualita';
 
-// Carica tutti i post (e li ordina per data)
-const posts = (await Astro.glob<BlogPost>('../pages/blogs/*.astro')).sort(
+// Genera automaticamente la versione con l’iniziale maiuscola
+const categoryLabel = 'Attualità e news';
+
+// Carica tutti i post e ordina per data
+const allPosts = (await Astro.glob<BlogPost>('../../pages/blogs/*.astro')).sort(
     (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
 );
 
-// Conta tutte le occorrenze dei tag
-const tagCounts = posts.flatMap((p) => p.frontmatter.tags || []).reduce((acc, tag) => ((acc[tag] = (acc[tag] || 0) + 1), acc), {});
+// Filtra solo quelli della categoria
+const posts = allPosts.filter((p) => p.frontmatter.category === categoryParam);
 
-// Ordina tutti i tag dal più usato al meno usato
-// Ordina tutti i tag: prima per frequenza (discendente), poi alfabeticamente
+// Conta tag e ordina
+const tagCounts = posts.flatMap((p) => p.frontmatter.tags || []).reduce((acc, tag) => ((acc[tag] = (acc[tag] || 0) + 1), acc), {});
 const sortedTags = Object.entries(tagCounts).sort((a, b) => {
-    const countDiff = (b[1] as number) - (a[1] as number);
-    if (countDiff !== 0) return countDiff;
+    const diff = (b[1] as number) - (a[1] as number);
+    if (diff !== 0) return diff;
     return a[0].localeCompare(b[0], 'it', { sensitivity: 'base' });
 });
 ---
 
-<Layout title="Blog — Daniele Odorico">
+<Layout title="Blog — ${categoryLabel} | Daniele Odorico">
     <section class="mb-12 sm:mb-20 max-w-7xl mx-auto">
-        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">Blog</h1>
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">{categoryLabel}</h1>
         <p class="text-[#b8b8b8] mb-8">{posts.length} articoli pubblicati</p>
 
         <!-- TAG FILTER -->
@@ -79,8 +82,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             const buttons = document.querySelectorAll('button.tag') as NodeListOf<HTMLButtonElement>;
             const postGrid = document.getElementById('post-grid') as HTMLElement;
             const loadMoreBtn = document.getElementById('load-more') as HTMLButtonElement;
-
-            // Cast esplicito a HTMLTemplateElement per il contenuto
             const posts = [...document.querySelectorAll('template[data-post]')] as HTMLTemplateElement[];
 
             const pageSize = 6;
@@ -116,26 +117,21 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             });
 
             loadMoreBtn.addEventListener('click', () => renderPosts());
-
             renderPosts();
         });
 
-        // Gestione visibilità dei tag extra (con animazione fade)
+        // Toggle tag visibili/nascosti
         const toggleBtn = document.getElementById('toggle-tags');
         if (toggleBtn) {
             const hiddenTags = document.querySelectorAll('.hidden-tag');
-
             toggleBtn.addEventListener('click', () => {
                 const isHidden = hiddenTags[0]?.classList.contains('hidden');
-
                 hiddenTags.forEach((t) => {
                     if (isHidden) {
-                        // Mostra con fade-in
                         t.classList.remove('hidden');
                         t.classList.add('fade-in');
                         setTimeout(() => t.classList.remove('fade-in'), 300);
                     } else {
-                        // Nascondi con fade-out
                         t.classList.add('fade-out');
                         setTimeout(() => {
                             t.classList.add('hidden');
@@ -143,7 +139,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
                         }, 300);
                     }
                 });
-
                 toggleBtn.textContent = isHidden ? '[-]' : '[…]';
             });
         }
@@ -178,7 +173,7 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
     }
 
     <style>
-        /* TAG filtro */
+        /* --- Copia invariata del tuo stile --- */
         .tag {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
             color: #d16ba5;
@@ -191,37 +186,29 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             text-transform: lowercase;
             white-space: nowrap;
         }
-
         .tag:hover {
             color: #00bcd4;
             border-color: rgba(0, 188, 212, 0.6);
         }
-
         .tag.active {
             background: rgba(209, 107, 165, 0.15);
             color: #00bcd4;
             border-color: rgba(0, 188, 212, 0.6);
         }
-
         .toggle-tag {
             font-weight: 700;
             border-style: solid;
             border-color: rgba(209, 107, 165, 0.4);
             background: rgba(255, 255, 255, 0.08);
         }
-
         .count {
             font-size: 0.85em;
             color: #777;
             margin-left: 0.3em;
         }
-
-        /* Tag nascosti di default */
         .hidden-tag.hidden {
             display: none !important;
         }
-
-        /* Fade animazioni */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -232,7 +219,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
                 transform: translateY(0);
             }
         }
-
         @keyframes fadeOut {
             from {
                 opacity: 1;
@@ -243,15 +229,12 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
                 transform: translateY(-4px);
             }
         }
-
         .fade-in {
             animation: fadeIn 0.3s ease forwards;
         }
-
         .fade-out {
             animation: fadeOut 0.3s ease forwards;
         }
-
         .card {
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -267,7 +250,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             box-shadow: 0 0 18px rgba(209, 107, 165, 0.2);
             transform: translateY(-2px);
         }
-
         .card-title {
             font-weight: 700;
             color: #f2f2f2;
@@ -277,20 +259,15 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             font-size: 0.95rem;
             margin-bottom: 0.5rem;
         }
-
         .card-link {
             color: #d16ba5;
-            text-decoration: none;
             border-bottom: 1px dashed rgba(209, 107, 165, 0.5);
-            transition:
-                color 0.2s ease,
-                border-color 0.2s ease;
+            text-decoration: none;
         }
         .card-link:hover {
             color: #00bcd4;
             border-bottom-color: rgba(0, 188, 212, 0.7);
         }
-
         .icon-wrapper {
             display: flex;
             justify-content: center;
@@ -311,7 +288,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => {
             transform: scale(1.2);
             opacity: 1;
         }
-
         .load-btn {
             color: #d16ba5;
             border: 1px solid rgba(209, 107, 165, 0.5);

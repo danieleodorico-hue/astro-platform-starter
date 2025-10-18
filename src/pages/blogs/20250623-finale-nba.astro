@@ -8,12 +8,14 @@ export const frontmatter = {
     date: '2025-06-23',
     description: "Complimenti agli Oklahoma City Thunder, nuovi campioni NBA 2025. Una finale intensa, segnata purtroppo dall'infortunio di Haliburton.",
     tags: ['sport', 'basket', 'NBA'],
+    category: 'sport',
     icon: 'Trophy' // https://lucide.dev/icons/
 };
 ---
 
 <Layout title={frontmatter.title}>
     <section class="mb-12 sm:mb-20 max-w-4xl mx-auto">
+        <!-- <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 text-[#f2f2f2]">{frontmatter.title}</h1> -->
         <h1 class="text-3xl sm:text-4xl font-bold text-[#f2f2f2] mb-3">{frontmatter.title}</h1>
         <p class="text-sm text-[#999] mb-8">
             {
